@@ -1,0 +1,48 @@
+package com;
+public interface RequestCodes {
+    // SERVER ACTIONS
+    final String PRESENT = "PRESENT";
+
+    final String SHOW_ALL_CHATS = "SHOW_ALL_CHATS";
+
+    // Single conversation
+    final String SINGLE_REQUESTED = "SINGLE_CHAT_REQUESTED";
+    final String REQ_START_SINGLE = "START_SINGLE";
+    final String EXIT_SINGLE = "EXIT_SINGLE";
+    final String DIRECT_MSG = "SEND_DIRECT_MSG";
+
+    // Chat codes
+    final String NEW_CHAT = "NEW_CHAT";
+    final String CHAT_REGISTERED = "CHAT_REGISTERED";
+    final String START_CHAT = "START_CHAT";
+    final String ADD_MEMBER = "ADD_MEMBER";
+    final String UPDATE_CHAT = "UPDATE_CHAT";
+    final String SEND_MSG_TO_CHAT = "SEND_MSG_TO_CHAT";
+    final String GET_CHAT = "GET_CHAT";
+    final String TO_CHAT = "TO_CHAT";
+    final String FROM_CHAT = "FROM_CHAT";
+    final String SHOW_ALL_MEMBERS = "SHOW_ALL_MEMBERS";
+
+    final String REQ_SHOW_ALL_ONLINE = "SHOW_ALL_ONLINE";
+    final String REQ_ASKED_FOR_PERMISSION = "ASKED_FOR_PERMISSION";
+    final String REQ_WAITING_FOR_PERMISSION = "WAITING_FOR_PERMISSION";
+    final String REQ_ALLOW = "ALLOW";
+    final String REQ_DENY = "DENY";
+
+    final String INFO_PRESENTATION_START = "INFO_PRESNTATION_START";
+    final String INFO_NO_SERVER_RESPONSE = "INFO_NO_SERVER_RESPONSE";
+    final String INFO_WAITING_RESPONSE = "INFO_WAITING_RESPONSE";
+    final String INFO_CONECXION_REJECTED = "CONECXION_REJECTED";
+    final String INFO_COMFIRMATION_SUCCESS = "OK";
+    final String INFO_CONECXION_ACCEPTED = "CONECXION_ACCEPTED";
+    final String INFO_CONNECTION_ESTABLISH = "CONNECTION_ESTABLISH";
+    final String INFO_CONNECTION_CLOSED = "CONNECTION CLOSED";
+    final String INFO_PRESENTATION_SUCCES = "PRESENTATION_SUCCES";
+
+    final String ERROR_PRESENTATION = "ERROR_PRESENTATION";
+    final String ERROR_SERVER_CONNECTION = "ERROR_SERVER_CONNECTION";
+    final String ERROR_CLIENT_NOT_FOUND = "CLIENT_NOT_FOUND";
+    final String ERROR_SELF_REFERENCE = "SELF_REFERENCE";
+    final String ERROR_CHAT_NOT_FOUND = "ERROR_CHAT_NOT_FOUND";
+
+}
