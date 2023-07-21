@@ -1,4 +1,5 @@
 package com;
+
 public interface RequestCodes {
     // SERVER ACTIONS
     final String PRESENT = "PRESENT";
@@ -7,9 +8,6 @@ public interface RequestCodes {
 
     // Single conversation
     final String SINGLE_REQUESTED = "SINGLE_CHAT_REQUESTED";
-    final String REQ_START_SINGLE = "START_SINGLE";
-    final String EXIT_SINGLE = "EXIT_SINGLE";
-    final String DIRECT_MSG = "SEND_DIRECT_MSG";
 
     // Chat codes
     final String NEW_CHAT = "NEW_CHAT";
@@ -28,6 +26,8 @@ public interface RequestCodes {
     final String REQ_WAITING_FOR_PERMISSION = "WAITING_FOR_PERMISSION";
     final String REQ_ALLOW = "ALLOW";
     final String REQ_DENY = "DENY";
+    final String REQ_START_SINGLE = "START_SINGLE";
+    final String REQ_EXIT_SINGLE = "EXIT_SINGLE";
 
     final String INFO_PRESENTATION_START = "INFO_PRESNTATION_START";
     final String INFO_NO_SERVER_RESPONSE = "INFO_NO_SERVER_RESPONSE";
@@ -44,5 +44,7 @@ public interface RequestCodes {
     final String ERROR_CLIENT_NOT_FOUND = "CLIENT_NOT_FOUND";
     final String ERROR_SELF_REFERENCE = "SELF_REFERENCE";
     final String ERROR_CHAT_NOT_FOUND = "ERROR_CHAT_NOT_FOUND";
+
+    final String MSG_SINGLE_MSG = "SEND_SINGLE_MSG";
 
 }
