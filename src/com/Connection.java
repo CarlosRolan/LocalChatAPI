@@ -9,7 +9,7 @@ import java.net.SocketException;
 
 import com.Msg.MsgType;
 
-public class Connection extends Thread implements RequestCodes {
+public class Connection extends Thread implements ApiCodes {
 
 	private long mId;
 	private Socket mSocket = null;

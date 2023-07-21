@@ -1,6 +1,6 @@
 package com;
 
-public interface RequestCodes {
+public interface ApiCodes {
     // SERVER ACTIONS
     final String PRESENT = "PRESENT";
 
