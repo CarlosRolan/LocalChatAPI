@@ -4,11 +4,6 @@ public interface ApiCodes {
     // SERVER ACTIONS
     final String PRESENT = "PRESENT";
 
-    final String SHOW_ALL_CHATS = "SHOW_ALL_CHATS";
-
-    // Single conversation
-    final String SINGLE_REQUESTED = "SINGLE_CHAT_REQUESTED";
-
     // Chat codes
     final String NEW_CHAT = "NEW_CHAT";
     final String CHAT_REGISTERED = "CHAT_REGISTERED";
@@ -21,6 +16,7 @@ public interface ApiCodes {
     final String FROM_CHAT = "FROM_CHAT";
     final String SHOW_ALL_MEMBERS = "SHOW_ALL_MEMBERS";
 
+    final String REQ_SINGLE = "SINGLE_CHAT_REQUESTED";
     final String REQ_SHOW_ALL_ONLINE = "SHOW_ALL_ONLINE";
     final String REQ_ASKED_FOR_PERMISSION = "ASKED_FOR_PERMISSION";
     final String REQ_WAITING_FOR_PERMISSION = "WAITING_FOR_PERMISSION";
