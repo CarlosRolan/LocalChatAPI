@@ -97,7 +97,11 @@ public class Connection extends Thread implements ApiCodes {
 		presentation();
 	}
 
-	private void presentation() {
+	/*
+	 * This method encapsulate the presentation process as well his response to the
+	 * client side
+	 */
+	public void presentation() {
 		if (presentToServer()) {
 			System.out.println(INFO_CONECXION_ACCEPTED);
 			System.out.println("Listening on PORT: " + port);
@@ -106,9 +110,13 @@ public class Connection extends Thread implements ApiCodes {
 		}
 	}
 
+	/*
+	 * @return True if the presentation has beeen suscessfull and false if could no
+	 * get the confirmation from the server
+	 */
 	private boolean presentToServer() {
 		Msg presentation = new Msg(MsgType.REQUEST);
-		presentation.setAction(PRESENT);
+		presentation.setAction(REQ_PRESENT);
 		presentation.setEmisor(getNick());
 
 		writeMessage(presentation);
@@ -154,6 +162,9 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
+	/*
+	 * Sends a Msg to the ObjectoutputSream of the socket
+	 */
 	public void writeMessage(Msg msg) {
 		try {
 			oos.writeObject(msg);
@@ -166,6 +177,9 @@ public class Connection extends Thread implements ApiCodes {
 
 	}
 
+	/*
+	 * @return Recievers a Msg from the ObjectInputStream os the socket
+	 */
 	public Msg readMessage() throws ClassNotFoundException, IOException, EOFException {
 		return (Msg) ois.readObject();
 	}

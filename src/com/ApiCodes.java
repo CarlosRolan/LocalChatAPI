@@ -1,29 +1,6 @@
 package com;
 
 public interface ApiCodes {
-    // SERVER ACTIONS
-    final String PRESENT = "PRESENT";
-
-    // Chat codes
-    final String NEW_CHAT = "NEW_CHAT";
-    final String CHAT_REGISTERED = "CHAT_REGISTERED";
-    final String START_CHAT = "START_CHAT";
-    final String ADD_MEMBER = "ADD_MEMBER";
-    final String UPDATE_CHAT = "UPDATE_CHAT";
-    final String SEND_MSG_TO_CHAT = "SEND_MSG_TO_CHAT";
-    final String GET_CHAT = "GET_CHAT";
-    final String TO_CHAT = "TO_CHAT";
-    final String FROM_CHAT = "FROM_CHAT";
-    final String SHOW_ALL_MEMBERS = "SHOW_ALL_MEMBERS";
-
-    final String REQ_SINGLE = "SINGLE_CHAT_REQUESTED";
-    final String REQ_SHOW_ALL_ONLINE = "SHOW_ALL_ONLINE";
-    final String REQ_ASKED_FOR_PERMISSION = "ASKED_FOR_PERMISSION";
-    final String REQ_WAITING_FOR_PERMISSION = "WAITING_FOR_PERMISSION";
-    final String REQ_ALLOW = "ALLOW";
-    final String REQ_DENY = "DENY";
-    final String REQ_START_SINGLE = "START_SINGLE";
-    final String REQ_EXIT_SINGLE = "EXIT_SINGLE";
 
     final String INFO_PRESENTATION_START = "INFO_PRESNTATION_START";
     final String INFO_NO_SERVER_RESPONSE = "INFO_NO_SERVER_RESPONSE";
@@ -35,12 +12,27 @@ public interface ApiCodes {
     final String INFO_CONNECTION_CLOSED = "CONNECTION CLOSED";
     final String INFO_PRESENTATION_SUCCES = "PRESENTATION_SUCCES";
 
+    // REQ-TYPE CODES
+    final String REQ_PRESENT = "PRESENT";
+    final String REQ_SINGLE = "SINGLE_CHAT_REQUESTED";
+    final String REQ_SHOW_ALL_CON = "SHOW_ALL_CON";
+    final String REQ_SHOW_ALL_CHAT = "SHOW_ALL_CHAT";
+    final String REQ_ASKED_FOR_PERMISSION = "ASKED_FOR_PERMISSION";
+    final String REQ_WAITING_FOR_PERMISSION = "WAITING_FOR_PERMISSION";
+    final String REQ_ALLOW = "ALLOW";
+    final String REQ_DENY = "DENY";
+    final String REQ_START_SINGLE = "START_SINGLE";
+    final String REQ_EXIT_SINGLE = "EXIT_SINGLE";
+    final String REQ_CHAT = "CHAT_REQ";
+
+    // ERROR-TYPE CODES
     final String ERROR_PRESENTATION = "ERROR_PRESENTATION";
     final String ERROR_SERVER_CONNECTION = "ERROR_SERVER_CONNECTION";
     final String ERROR_CLIENT_NOT_FOUND = "CLIENT_NOT_FOUND";
     final String ERROR_SELF_REFERENCE = "SELF_REFERENCE";
     final String ERROR_CHAT_NOT_FOUND = "ERROR_CHAT_NOT_FOUND";
 
+    // MSG-TYPE CODES
     final String MSG_SINGLE_MSG = "SEND_SINGLE_MSG";
 
 }
