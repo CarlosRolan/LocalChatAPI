@@ -29,7 +29,7 @@ public class Msg implements Serializable {
     }
 
     /**
-     * Note that the HEADERs array has always only 2 positions (headers.lenght = 2)
+     * Description:Note that the HEADERs array has always only 2 positions (headers.lenght = 2)
      * 
      * @return EMISOR in the position[0] and RECEPTOR at the [1]
      */

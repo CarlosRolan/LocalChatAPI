@@ -1,6 +1,5 @@
 package com.comunication;
 
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,11 +9,11 @@ import java.net.SocketException;
 
 import com.comunication.Msg.MsgType;
 
-
 /**
  * Description: TODO"
  * Program Name: LocalChatApi
  * Date: 2020-12-16
+ * 
  * @author Carlos Rolán Díaz
  * @version 1.0
  */
@@ -62,9 +61,8 @@ public class Connection extends Thread implements ApiCodes {
 		return oos;
 	}
 
-	
-	/** 
-	 * @param id
+	/**
+	 * @param id the conection ID as a String
 	 */
 	/* SETTERS */
 	public void setConId(String id) {
@@ -103,8 +101,8 @@ public class Connection extends Thread implements ApiCodes {
 	 * with an OutPut and InPut stream
 	 * 
 	 * @param nick     of the user of the connection
-	 * @param HOSTNAME
-	 * @param PORT
+	 * @param HOSTNAME of the connection
+	 * @param PORT     default 8080
 	 * 
 	 */
 	public Connection(String nick, final String HOSTNAME, final int PORT) {
@@ -215,7 +213,6 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
-
 	public void writeMessage(Msg msg) {
 		try {
 			oos.writeObject(msg);
@@ -228,13 +225,11 @@ public class Connection extends Thread implements ApiCodes {
 
 	}
 
-
-	
-	/** 
+	/**
 	 * @return Msg
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws EOFException
+	 * @throws ClassNotFoundException if Msg.class is not found
+	 * @throws IOException if there is any problem while reading or waiting the object
+	 * @throws EOFException with the closeure of the strem
 	 */
 	public Msg readMessage() throws ClassNotFoundException, IOException, EOFException {
 		return (Msg) ois.readObject();
