@@ -2,7 +2,7 @@
 
 # Function to compile the Java project
 function compile_java_project {
-  javac -d bin src/com/comunication/*.java src/com/chat/*.java
+  javac -d bin src/com/comunication/*.java src/com/chat/*.java src/module-info.java
   javadoc -d docs/ -sourcepath src/ -subpackages com.comunication com.chat 
 }
 
