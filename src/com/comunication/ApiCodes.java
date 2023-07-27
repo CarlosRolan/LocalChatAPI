@@ -1,5 +1,13 @@
-package com;
+package com.comunication;
 
+
+/**
+ * Description: aaa"
+ * Program Name: LocalChatApi
+ * Date: 2020-12-16
+ * @author Carlos Rolán Díaz
+ * @version 1.0
+ */
 public interface ApiCodes {
 
     /* INFO-TYPE CODES */

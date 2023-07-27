@@ -2,7 +2,13 @@ package com.chat;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Description: TODO"
+ * Program Name: LocalChatApi
+ * Date: 2020-12-16
+ * @author Carlos Rolán Díaz
+ * @version 1.0
+ */
 public class Chat {
 
     public final static String CHAT_PREFIX = "3120";

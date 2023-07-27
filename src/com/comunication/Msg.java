@@ -1,7 +1,13 @@
-package com;
-
+package com.comunication;
 import java.io.Serializable;
 
+/**
+ * Description: TODO"
+ * Program Name: LocalChatApi
+ * Date: 2020-12-16
+ * @author Carlos Rolán Díaz
+ * @version 1.0
+ */
 public class Msg implements Serializable {
     private static final long serialVersionUID = 123456789L;
 
@@ -24,6 +30,7 @@ public class Msg implements Serializable {
 
     /**
      * Note that the HEADERs array has always only 2 positions (headers.lenght = 2)
+     * 
      * @return EMISOR in the position[0] and RECEPTOR at the [1]
      */
     public String[] getHeaders() {
@@ -55,7 +62,9 @@ public class Msg implements Serializable {
     }
 
     /**
-     * Note that the PARAMETERs array can have any lenght unlike the HEADERs array which is always 2
+     * Note that the PARAMETERs array can have any lenght unlike the HEADERs array
+     * which is always 2
+     * 
      * @param position of the parameter
      * @return the parameter at the given position from the PARAMETERS array
      */
@@ -72,7 +81,9 @@ public class Msg implements Serializable {
     }
 
     /**
-     * Just to make a clearer use, when the MsgType = MESSAGE, use this method instead of getBody()
+     * Just to make a clearer use, when the MsgType = MESSAGE, use this method
+     * instead of getBody()
+     * 
      * @return Msg's body
      */
     public String getText() {

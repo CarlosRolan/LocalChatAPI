@@ -1,4 +1,5 @@
-package com;
+package com.comunication;
+
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -7,8 +8,16 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-import com.Msg.MsgType;
+import com.comunication.Msg.MsgType;
 
+
+/**
+ * Description: TODO"
+ * Program Name: LocalChatApi
+ * Date: 2020-12-16
+ * @author Carlos Rolán Díaz
+ * @version 1.0
+ */
 public class Connection extends Thread implements ApiCodes {
 
 	private long mId;
@@ -53,6 +62,10 @@ public class Connection extends Thread implements ApiCodes {
 		return oos;
 	}
 
+	
+	/** 
+	 * @param id
+	 */
 	/* SETTERS */
 	public void setConId(String id) {
 		mId = Long.parseLong(id);
@@ -202,7 +215,7 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
-	//TODO
+
 	public void writeMessage(Msg msg) {
 		try {
 			oos.writeObject(msg);
@@ -215,7 +228,14 @@ public class Connection extends Thread implements ApiCodes {
 
 	}
 
-	//TODO
+
+	
+	/** 
+	 * @return Msg
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws EOFException
+	 */
 	public Msg readMessage() throws ClassNotFoundException, IOException, EOFException {
 		return (Msg) ois.readObject();
 	}
