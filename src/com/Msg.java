@@ -17,38 +17,69 @@ public class Msg implements Serializable {
     private String[] parameters = { "none" };
     private String body = "empty";
 
+    /* GETTERS */
     public String getAction() {
         return action;
     }
 
+    /**
+     * Note that the HEADERs array has always only 2 positions (headers.lenght = 2)
+     * @return EMISOR in the position[0] and RECEPTOR at the [1]
+     */
     public String[] getHeaders() {
         return headers;
     }
 
+    /**
+     * 
+     * @return the EMISOR who is always at the headers[0] position
+     */
     public String getEmisor() {
         return headers[0];
     }
 
+    /**
+     * 
+     * @return the RECEPTOR who is always at the headers[0] position
+     */
     public String getReceptor() {
         return headers[1];
     }
 
+    /**
+     * 
+     * @return the string array of PARAMETERS
+     */
     public String[] getParameters() {
         return parameters;
     }
 
-    public String getParameter(int pos) {
-        return parameters[pos];
+    /**
+     * Note that the PARAMETERs array can have any lenght unlike the HEADERs array which is always 2
+     * @param position of the parameter
+     * @return the parameter at the given position from the PARAMETERS array
+     */
+    public String getParameter(int position) {
+        return parameters[position];
     }
 
+    /**
+     * 
+     * @return Msg's body
+     */
     public String getBody() {
         return body;
     }
 
+    /**
+     * Just to make a clearer use, when the MsgType = MESSAGE, use this method instead of getBody()
+     * @return Msg's body
+     */
     public String getText() {
         return getBody();
     }
 
+    /* SETTERS */
     public void setAction(String action) {
         this.action = action;
     }
@@ -78,10 +109,12 @@ public class Msg implements Serializable {
         this.body = body;
     }
 
+    /* CONSTRUCTORS */
     public Msg(MsgType TYPE) {
         PACKAGE_TYPE = TYPE;
     }
 
+    /* PUBLIC METHODS */
     public String showParameters() {
         String params = "";
         try {

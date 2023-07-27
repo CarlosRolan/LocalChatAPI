@@ -20,26 +20,46 @@ public class Connection extends Thread implements ApiCodes {
 	private String hostName = "localhost";
 	private int port = 8080;
 
-	// Getters
+	/* GETTERS */
+	/**
+	 * 
+	 * @return the ID of the connection parsed as a String
+	 */
 	public String getConId() {
 		return String.valueOf(mId);
 	}
 
+	/**
+	 * 
+	 * @return nickName of the user of the connection
+	 */
 	public String getNick() {
 		return mNick;
 	}
 
+	/**
+	 * 
+	 * @return Connection's ObjectInPutStream
+	 */
 	public ObjectInputStream getOis() {
 		return ois;
 	}
 
+	/**
+	 * 
+	 * @return Connection's ObjectOutPutStream
+	 */
 	public ObjectOutputStream getOos() {
 		return oos;
 	}
 
-	// Setters
+	/* SETTERS */
 	public void setConId(String id) {
 		mId = Long.parseLong(id);
+	}
+
+	public void setConId(long id) {
+		mId = id;
 	}
 
 	public void setConId(Long id) {
@@ -50,7 +70,12 @@ public class Connection extends Thread implements ApiCodes {
 		mNick = nick;
 	}
 
-	// Constructors
+	/* CONSTRUCTORS */
+	/**
+	 * Instance a connection with hostname = 'localhost' and port =8080
+	 * 
+	 * @param nick of the user of the connection
+	 */
 	public Connection(String nick) {
 		mNick = nick;
 		try {
@@ -60,16 +85,15 @@ public class Connection extends Thread implements ApiCodes {
 		}
 	}
 
-	public Connection(Socket socket) {
-		mSocket = socket;
-		try {
-			oos = new ObjectOutputStream(mSocket.getOutputStream());
-			ois = new ObjectInputStream(mSocket.getInputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	/**
+	 * Used to instance a connection from a client endpoint with the given params
+	 * with an OutPut and InPut stream
+	 * 
+	 * @param nick     of the user of the connection
+	 * @param HOSTNAME
+	 * @param PORT
+	 * 
+	 */
 	public Connection(String nick, final String HOSTNAME, final int PORT) {
 		mNick = nick;
 		hostName = HOSTNAME;
@@ -82,7 +106,22 @@ public class Connection extends Thread implements ApiCodes {
 
 	}
 
-	// Private Methods
+	/**
+	 * Used to instance a connection from a ServerSide-ServerSocket listener
+	 * 
+	 * @param socket recieved from a ServerSocket.accept();
+	 */
+	public Connection(Socket socket) {
+		mSocket = socket;
+		try {
+			oos = new ObjectOutputStream(mSocket.getOutputStream());
+			ois = new ObjectInputStream(mSocket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/* PRVATE METHODS */
 	private void initConnection() throws IOException {
 		mSocket = new Socket("localhost", 8080);
 		oos = new ObjectOutputStream(mSocket.getOutputStream());
@@ -97,8 +136,9 @@ public class Connection extends Thread implements ApiCodes {
 		presentation();
 	}
 
-	/*
-	 * This method encapsulate the presentation process as well his response to the
+	/**
+	 * This method encapsulates the presentation process from CLIENT to SERVER as
+	 * well his response to the
 	 * client side
 	 */
 	public void presentation() {
@@ -110,9 +150,9 @@ public class Connection extends Thread implements ApiCodes {
 		}
 	}
 
-	/*
-	 * @return True if the presentation has beeen suscessfull and false if could no
-	 * get the confirmation from the server
+	/**
+	 * @return TRUE if the presentation has beeen suscessfull. FALSE if could no
+	 *         get the confirmation from the server
 	 */
 	private boolean presentToServer() {
 		Msg presentation = new Msg(MsgType.REQUEST);
@@ -136,7 +176,7 @@ public class Connection extends Thread implements ApiCodes {
 		}
 	}
 
-	// Public Methods
+	/* PUBLIC METHODS */
 	public void reconnect() {
 		String dots = "";
 		while (true) {
@@ -162,9 +202,7 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
-	/*
-	 * Sends a Msg to the ObjectoutputSream of the socket
-	 */
+	//TODO
 	public void writeMessage(Msg msg) {
 		try {
 			oos.writeObject(msg);
@@ -177,9 +215,7 @@ public class Connection extends Thread implements ApiCodes {
 
 	}
 
-	/*
-	 * @return Recievers a Msg from the ObjectInputStream os the socket
-	 */
+	//TODO
 	public Msg readMessage() throws ClassNotFoundException, IOException, EOFException {
 		return (Msg) ois.readObject();
 	}

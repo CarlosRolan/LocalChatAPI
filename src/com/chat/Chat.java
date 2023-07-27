@@ -3,17 +3,13 @@ package com.chat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.Connection;
-
 public class Chat {
 
-    // static methods
-    public static Chat createChat(String title, String description, Connection con) {
-        final Member creator = new Member(con);
-        return new Chat(description, title, description, creator);
-    }
-
     public final static String CHAT_PREFIX = "3120";
+
+    public static Chat createInstance(String chatId, String title, String description, List<Member> members) {
+        return new Chat(chatId, title, description, members);
+    }
 
     private final List<Member> mMembers;
     private String mId;
@@ -33,6 +29,10 @@ public class Chat {
         return mDesc;
     }
 
+    public String[] getMembers() {
+        return (String[]) mMembers.toArray();
+    }
+
     // setters
     public void setTitle(String newTitle) {
         mTitle = newTitle;
@@ -48,6 +48,13 @@ public class Chat {
         mDesc = description;
         mMembers = new ArrayList<>();
         mMembers.add(0, creator);
+    }
+
+    private Chat(String chatId, String title, String description, List<Member> members) {
+        mId = chatId;
+        mTitle = title;
+        mDesc = description;
+        mMembers = members;
     }
 
 }
