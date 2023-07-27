@@ -1,24 +1,29 @@
 #!/bin/bash
 
+. ./declare_build_vars.sh
+
 # Function to compile the Java project
 function compile_java_project {
-  javac -d bin src/com/comunication/*.java src/com/chat/*.java src/module-info.java
-  javadoc -d docs/ -sourcepath src/ -subpackages com.comunication com.chat 
+  javac -d $OUTPUT_FOLDER $COMPILATION_PATH src/module-info.java
+  javadoc -d $DOCS_PATH -sourcepath $SOURCE_PATH -subpackages $PCKG_COMUNICATION $PCKG_CHAT
 }
 
 # Function to create the JAR file
 function create_jar {
-  cd bin
-  jar cvf ../build/LocalChatApi.jar -C . com/comunication -C . com/chat -C .. /docs
+  cd $OUTPUT_FOLDER
+  jar cvf ../$BUILD_PATH -C . com/comunication -C . com/chat -C .. /docs
 }
 
+# Function to go to the root folder
+function go_to_root {
+  cd ../
+}
 
-# Going to the proyects root folder
-cd ../
+go_to_root
 # Create a build directory if it doesn't exist
-mkdir -p bin
-mkdir -p build
-mkdir -p docs
+mkdir -p $OUTPUT_FOLDER
+mkdir -p $BUILD_FOLDER
+mkdir -p $DOCS_FOLDER
 
 # Compile the Java project
 compile_java_project
@@ -27,10 +32,9 @@ compile_java_project
 # cp -r src/main/resources/* bin/
 
 # Create the JAR file
-create_jar 
+create_jar
 
 cd ..
 
-cp -r build/LocalChatApi.jar ../ChatServer/lib
-cp -r build/LocalChatApi.jar ../ChatClient/lib
-
+cp -r $BUILD_PATH ../ChatServer/lib
+cp -r $BUILD_PATH ../ChatClient/lib
