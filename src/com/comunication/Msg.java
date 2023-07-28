@@ -1,8 +1,6 @@
 package com.comunication;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Description:
@@ -23,19 +21,8 @@ public class Msg implements Serializable {
     public final MsgType PACKAGE_TYPE;
     private String mAction = "NO_ACTION";
     private String[] mHeaders = { "no_emisor", "no_receptor" };
-    private List<String> mParameters = new ArrayList<String>();
+    private String[] mParameters = { "p1", "p2", "p3", "p4", "p5" };
     private String mBody = "empty";
-
-    private String[] parseToArrayString() {
-        Object[] toArray = mParameters.toArray();
-        String[] parsed = new String[toArray.length];
-
-        for (int i = 0; i < parsed.length; i++) {
-            parsed[i] = toArray[i].toString();
-        }
-
-        return parsed;
-    }
 
     /* GETTERS */
     public String getAction() {
@@ -75,8 +62,7 @@ public class Msg implements Serializable {
      * @return the string array of PARAMETERS
      */
     public String[] getParameters() {
-        String[] parsed = parseToArrayString();
-        return parsed;
+        return mParameters;
     }
 
     /**
@@ -87,7 +73,7 @@ public class Msg implements Serializable {
      * @return the parameter at the given position from the PARAMETERS array
      */
     public String getParameter(int position) {
-        return mParameters.get(position);
+        return mParameters[position];
     }
 
     /**
@@ -126,17 +112,11 @@ public class Msg implements Serializable {
     }
 
     public void setParameters(String[] parameters) {
-        for (int i = 0; i < parameters.length; i++) {
-            mParameters.add(parameters[i]);
-        }
-    }
-
-    public void setParameters(List<String> parameters) {
         mParameters = parameters;
     }
 
     public void setParameter(int pos, String parameter) {
-        mParameters.add(pos, parameter);
+        mParameters[pos] = parameter;
     }
 
     public void setBody(String body) {
@@ -150,18 +130,14 @@ public class Msg implements Serializable {
 
     /* PUBLIC METHODS */
     public String showParameters() {
-        String[] parsed = parseToArrayString();
-
         String toret = "";
-        for (int i = 0; i < parsed.length; i++) {
+        for (int i = 0; i < mParameters.length; i++) {
             if (i > 0) {
                 toret += ",";
             }
-            toret += parsed[i];
+            toret += mParameters[i];
         }
-
         return toret;
-
     }
 
     @Override
