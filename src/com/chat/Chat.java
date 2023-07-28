@@ -2,19 +2,63 @@ package com.chat;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.comunication.Msg;
+
 /**
- * Description: TODO"
+ * Description: 
  * Program Name: LocalChatApi
- * Date: 2020-12-16
+ * 
  * @author Carlos Rolán Díaz
- * @version 1.0
+ * @version beta
  */
 public class Chat {
 
     public final static String CHAT_PREFIX = "3120";
 
-    public static Chat createInstance(String chatId, String title, String description, List<Member> members) {
-        return new Chat(chatId, title, description, members);
+    /**
+     * The data in the Msg is store like:
+     * Emisor: creator ID.
+     * Parameters: { TITLE, DESCRIPTION } (of the chat)
+     * Body: creator nick name
+     * 
+     * The chat ID is constructed as CHAT_PREFIX + creator ID
+     * 
+     * @param chatInfo Msg object that contain all info to construct and register a
+     *                 chat in the SERVER
+     * 
+     * @return new instance of Chat object
+     */
+    public static Chat createChatAsAdmin(Msg chatInfo) {
+        List<Member> members = new ArrayList<Member>();
+        members.add(Member.initCreator(chatInfo.getEmisor(), chatInfo.getBody()));
+
+        return new Chat(CHAT_PREFIX + chatInfo.getEmisor(), chatInfo.getParameter(0), chatInfo.getParameter(1), members);
+    }
+
+    /**
+     * The data in the Msg is store like:
+     * Emisor: Chat ID.
+     * Receptor: Chat Title
+     * Parameters: { members as a string }
+     * Body: Chat Description
+     * 
+     * @param chatInfo Msg object that contain all info of a Chat
+     * 
+     * @return new instance of Chat previously constructed in Server and sended as a
+     *         Msg to the cleint
+     */
+    public static Chat instanceChat(Msg chatInfo) {
+        String[] membersRaw = chatInfo.getParameters();
+
+        List<Member> members = new ArrayList<Member>();
+
+        for (int i = 0; i < membersRaw.length; i++) {
+            members.add(new Member(membersRaw[i]));
+        }
+
+        return new Chat(chatInfo.getEmisor(), chatInfo.getReceptor(), chatInfo.getBody(), members);
+
     }
 
     private final List<Member> mMembers;
@@ -22,7 +66,7 @@ public class Chat {
     private String mTitle;
     private String mDesc;
 
-    // getters
+    /* GETTERS */
     public String getChatId() {
         return mId;
     }
@@ -35,25 +79,32 @@ public class Chat {
         return mDesc;
     }
 
-    public String[] getMembers() {
-        return (String[]) mMembers.toArray();
+    public List<Member> getMembers() {
+        return mMembers;
     }
 
-    // setters
+    public String[] getmembersToString() {
+        String[] membersString = new String[mMembers.size()];
+        for (int i = 0; i < membersString.length; i++) {
+            membersString[i] = mMembers.get(i).toString();
+        }
+
+        return membersString;
+    }
+
+    public void addMember(Member newMember) {
+        if (mMembers != null) {
+            mMembers.add(newMember);
+        }
+    }
+
+    /* SETTERS */
     public void setTitle(String newTitle) {
         mTitle = newTitle;
     }
 
     public void setDescription(String newDescription) {
         mDesc = newDescription;
-    }
-
-    private Chat(String creatorId, String title, String description, final Member creator) {
-        mId = CHAT_PREFIX + creatorId;
-        mTitle = title;
-        mDesc = description;
-        mMembers = new ArrayList<>();
-        mMembers.add(0, creator);
     }
 
     private Chat(String chatId, String title, String description, List<Member> members) {

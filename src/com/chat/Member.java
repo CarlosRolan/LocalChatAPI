@@ -1,44 +1,70 @@
 package com.chat;
 
-import com.comunication.Connection;
-
 /**
- * Description: TODO"
+ * Description: 
  * Program Name: LocalChatApi
- * Date: 2020-12-16
+ * 
  * @author Carlos Rolán Díaz
- * @version 1.0
+ * @version beta
  */
 public class Member {
 
-    enum Permission {
-        ADMIN(),
-        REGULAR();
+    protected static enum Permission {
+        ADMIN("AD"),
+        REGULAR("REG");
+
+        private String permCode;
+
+        Permission(String permision) {
+            permCode = permision;
+        }
+
+        public static Permission assing(String code) {
+            switch (code) {
+                case "AD":
+                    return ADMIN;
+                case "REG":
+                    return REGULAR;
+                default:
+                    return ADMIN;
+            }
+        }
+
+        @Override
+        public String toString() {
+            return permCode;
+        }
     }
 
-    public static Member creator(Connection c) {
-        return new Member(c);
+    public static Member initCreator(String conId, String name) {
+        return new Member(conId, name, Permission.ADMIN);
     }
 
     public static Member regular(String conId, String name) {
-        return new Member(conId, name);
+        return new Member(conId, name, Permission.REGULAR);
     }
 
     private final int connectionRef;
     private final Permission mRights;
-
     private String mName;
 
-    private Member(Connection connection) {
-        connectionRef = Integer.parseInt(connection.getConId());
-        mRights = Permission.ADMIN;
-        mName = connection.getNick();
+    private Member(String conId, String name, final Permission permission) {
+        connectionRef = Integer.parseInt(conId);
+        mRights = permission;
+        mName = name;
     }
 
-    private Member(String conId, String name) {
-           connectionRef = Integer.parseInt(conId);
-           mRights = Permission.REGULAR;
-           mName = name;
+    protected Member(String memberInfo) {
+        String[] params = memberInfo.split("_");
+
+        connectionRef = Integer.parseInt(params[0]);
+        mRights = Permission.assing(params[1]);
+        mName = params[2];
+    }
+
+    @Override
+    public String toString() {
+        return connectionRef + "_" + mRights + "_" + mName;
     }
 
 }

@@ -1,12 +1,11 @@
 package com.comunication;
 
-
 /**
- * Description: aaa"
+ * Description: 
  * Program Name: LocalChatApi
- * Date: 2020-12-16
+ * 
  * @author Carlos Rolán Díaz
- * @version 1.0
+ * @version beta
  */
 public interface ApiCodes {
 
@@ -34,6 +33,7 @@ public interface ApiCodes {
     final String REQ_EXIT_SINGLE = "EXIT_SINGLE";
     final String REQ_CHAT = "GET_CHAT";
     final String REQ_CREATE_CHAT = "CREATE_CHAT";
+    final String REQ_INIT_CHAT = "INIT_CHAT";
 
     /* ERROR-TYPE CODES */
     final String ERROR_PRESENTATION = "ERROR_PRESENTATION";

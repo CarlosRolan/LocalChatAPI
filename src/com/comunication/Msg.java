@@ -1,12 +1,15 @@
 package com.comunication;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Description: TODO"
+ * Description:
  * Program Name: LocalChatApi
- * Date: 2020-12-16
+ * 
  * @author Carlos Rolán Díaz
- * @version 1.0
+ * @version beta
  */
 public class Msg implements Serializable {
     private static final long serialVersionUID = 123456789L;
@@ -18,23 +21,37 @@ public class Msg implements Serializable {
     }
 
     public final MsgType PACKAGE_TYPE;
-    private String action = "NO_ACTION";
-    private String[] headers = { "no_emisor", "no_receptor" };
-    private String[] parameters = { "none" };
-    private String body = "empty";
+    private String mAction = "NO_ACTION";
+    private String[] mHeaders = { "no_emisor", "no_receptor" };
+    private List<String> mParameters = new ArrayList<String>();
+    private String mBody = "empty";
+
+    private String[] parseToArrayString() {
+        Object[] toArray = mParameters.toArray();
+        String[] parsed = new String[toArray.length];
+
+        for (int i = 0; i < parsed.length; i++) {
+            parsed[i] = toArray[i].toString();
+        }
+
+        return parsed;
+    }
 
     /* GETTERS */
     public String getAction() {
-        return action;
+        return mAction;
     }
 
     /**
-     * Description:Note that the HEADERs array has always only 2 positions (headers.lenght = 2)
+     * Description:Note that the HEADERs array has always only 2 positions
+     * headers[0] = emisor
+     * header[1] = receptor
+     * (headers.lenght = 2)
      * 
      * @return EMISOR in the position[0] and RECEPTOR at the [1]
      */
     public String[] getHeaders() {
-        return headers;
+        return mHeaders;
     }
 
     /**
@@ -42,7 +59,7 @@ public class Msg implements Serializable {
      * @return the EMISOR who is always at the headers[0] position
      */
     public String getEmisor() {
-        return headers[0];
+        return mHeaders[0];
     }
 
     /**
@@ -50,7 +67,7 @@ public class Msg implements Serializable {
      * @return the RECEPTOR who is always at the headers[0] position
      */
     public String getReceptor() {
-        return headers[1];
+        return mHeaders[1];
     }
 
     /**
@@ -58,7 +75,8 @@ public class Msg implements Serializable {
      * @return the string array of PARAMETERS
      */
     public String[] getParameters() {
-        return parameters;
+        String[] parsed = parseToArrayString();
+        return parsed;
     }
 
     /**
@@ -69,7 +87,7 @@ public class Msg implements Serializable {
      * @return the parameter at the given position from the PARAMETERS array
      */
     public String getParameter(int position) {
-        return parameters[position];
+        return mParameters.get(position);
     }
 
     /**
@@ -77,7 +95,7 @@ public class Msg implements Serializable {
      * @return Msg's body
      */
     public String getBody() {
-        return body;
+        return mBody;
     }
 
     /**
@@ -92,32 +110,37 @@ public class Msg implements Serializable {
 
     /* SETTERS */
     public void setAction(String action) {
-        this.action = action;
+        this.mAction = action;
     }
 
     public void setHeaders(String[] headers) {
-        this.headers = headers;
+        this.mHeaders = headers;
     }
 
     public void setEmisor(String emisor) {
-        headers[0] = emisor;
+        mHeaders[0] = emisor;
     }
 
     public void setReceptor(String receptor) {
-        headers[1] = receptor;
+        mHeaders[1] = receptor;
     }
 
     public void setParameters(String[] parameters) {
-        this.parameters = parameters;
+        for (int i = 0; i < parameters.length; i++) {
+            mParameters.add(parameters[i]);
+        }
+    }
+
+    public void setParameters(List<String> parameters) {
+        mParameters = parameters;
     }
 
     public void setParameter(int pos, String parameter) {
-        this.parameters[pos] = parameter;
-
+        mParameters.add(pos, parameter);
     }
 
     public void setBody(String body) {
-        this.body = body;
+        this.mBody = body;
     }
 
     /* CONSTRUCTORS */
@@ -127,22 +150,24 @@ public class Msg implements Serializable {
 
     /* PUBLIC METHODS */
     public String showParameters() {
-        String params = "";
-        try {
-            for (int i = 0; i < parameters.length; i++) {
-                params += parameters[i] + ",";
+        String[] parsed = parseToArrayString();
+
+        String toret = "";
+        for (int i = 0; i < parsed.length; i++) {
+            if (i > 0) {
+                toret += ",";
             }
-            return params;
-        } catch (IndexOutOfBoundsException e) {
-            return parameters[0];
+            toret += parsed[i];
         }
+
+        return toret;
 
     }
 
     @Override
     public String toString() {
-        return PACKAGE_TYPE + "[" + action + "]\n" + "Headers:[" + headers[0] + ", " + headers[1] + "]\n"
+        return PACKAGE_TYPE + "[" + mAction + "]\n" + "Headers:[" + mHeaders[0] + ", " + mHeaders[1] + "]\n"
                 + "Parameters:["
-                + showParameters() + "]\n" + "Body:{" + body + "}";
+                + showParameters() + "]\n" + "Body:{" + mBody + "}";
     }
 }

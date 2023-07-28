@@ -10,12 +10,11 @@ import java.net.SocketException;
 import com.comunication.Msg.MsgType;
 
 /**
- * Description: TODO"
+ * Description: 
  * Program Name: LocalChatApi
- * Date: 2020-12-16
  * 
  * @author Carlos Rolán Díaz
- * @version 1.0
+ * @version beta
  */
 public class Connection extends Thread implements ApiCodes {
 
