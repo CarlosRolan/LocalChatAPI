@@ -212,17 +212,18 @@ public class Connection extends Thread implements ApiCodes {
 	}
 
 	public void writeMessage(Msg msg) {
-		try {
-			oos.writeObject(msg);
-			oos.flush();
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (msg != null) {
+			try {
+				oos.writeObject(msg);
+				oos.flush();
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-
 	}
 
 	/**
