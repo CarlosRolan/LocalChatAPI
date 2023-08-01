@@ -1,7 +1,7 @@
 package com.chat;
 
 /**
- * Description: 
+ * Description:
  * Program Name: LocalChatApi
  * 
  * @author Carlos Rolán Díaz
@@ -47,6 +47,14 @@ public class Member {
     private final int connectionRef;
     private final Permission mRights;
     private String mName;
+
+    public String getConnectionId() {
+        return String.valueOf(connectionRef);
+    }
+
+    public String getName() {
+        return mName;
+    }
 
     private Member(String conId, String name, final Permission permission) {
         connectionRef = Integer.parseInt(conId);

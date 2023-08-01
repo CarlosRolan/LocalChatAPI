@@ -21,7 +21,7 @@ public class Msg implements Serializable {
     public final MsgType PACKAGE_TYPE;
     private String mAction = "NO_ACTION";
     private String[] mHeaders = { "no_emisor", "no_receptor" };
-    private String[] mParameters = { "p1", "p2", "p3", "p4", "p5" };
+    private String[] mParameters = { null, null, null, null, null };
     private String mBody = "empty";
 
     /* GETTERS */
@@ -132,10 +132,11 @@ public class Msg implements Serializable {
     public String showParameters() {
         String toret = "";
         for (int i = 0; i < mParameters.length; i++) {
-            if (i > 0) {
+            if (mParameters[i] != null) {
+                toret += mParameters[i];
                 toret += ",";
             }
-            toret += mParameters[i];
+
         }
         return toret;
     }

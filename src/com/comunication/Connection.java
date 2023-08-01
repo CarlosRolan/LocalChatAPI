@@ -10,7 +10,7 @@ import java.net.SocketException;
 import com.comunication.Msg.MsgType;
 
 /**
- * Description: 
+ * Description:
  * Program Name: LocalChatApi
  * 
  * @author Carlos Rolán Díaz
@@ -169,21 +169,27 @@ public class Connection extends Thread implements ApiCodes {
 		presentation.setAction(REQ_PRESENT);
 		presentation.setEmisor(getNick());
 
-		writeMessage(presentation);
-
-		Msg presentationResponse = null;
 		try {
-			presentationResponse = readMessage();
-		} catch (ClassNotFoundException | IOException e) {
-			System.out.println("COULD NOT RECIEVE CONFIRMATION");
-		}
+			writeMessage(presentation);
 
-		if (INFO_PRESENTATION_SUCCES.equals(presentationResponse.getAction())) {
-			mId = Integer.parseInt(presentationResponse.getReceptor());
-			return true;
-		} else {
+			Msg presentationResponse = null;
+			try {
+				presentationResponse = readMessage();
+			} catch (ClassNotFoundException | IOException e) {
+				System.out.println("COULD NOT RECIEVE CONFIRMATION");
+			}
+
+			if (INFO_PRESENTATION_SUCCES.equals(presentationResponse.getAction())) {
+				mId = Integer.parseInt(presentationResponse.getReceptor());
+				return true;
+			} else {
+				return false;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 			return false;
 		}
+
 	}
 
 	/* PUBLIC METHODS */
@@ -212,23 +218,17 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
-	public void writeMessage(Msg msg) {
-		try {
-			oos.writeObject(msg);
-			oos.flush();
-		} catch (SocketException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+	public void writeMessage(Msg msg) throws SocketException, IOException {
+		oos.writeObject(msg);
+		oos.flush();
 	}
 
 	/**
 	 * @return Msg
 	 * @throws ClassNotFoundException if Msg.class is not found
-	 * @throws IOException if there is any problem while reading or waiting the object
-	 * @throws EOFException with the closeure of the strem
+	 * @throws IOException            if there is any problem while reading or
+	 *                                waiting the object
+	 * @throws EOFException           with the closeure of the strem
 	 */
 	public Msg readMessage() throws ClassNotFoundException, IOException, EOFException {
 		return (Msg) ois.readObject();
