@@ -1,6 +1,5 @@
 package com.comunication;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -169,27 +168,21 @@ public class Connection extends Thread implements ApiCodes {
 		presentation.setAction(REQ_PRESENT);
 		presentation.setEmisor(getNick());
 
-		try {
-			writeMessage(presentation);
+		writeMessage(presentation);
 
-			Msg presentationResponse = null;
-			try {
-				presentationResponse = readMessage();
-			} catch (ClassNotFoundException | IOException e) {
-				System.out.println("COULD NOT RECIEVE CONFIRMATION");
-			}
+		Msg presentationResponse = readMessage();
 
+		if (presentationResponse == null) {
+			System.out.println("COULD NOT RECIEVE CONFIRMATION");
+			return false;
+		} else {
 			if (INFO_PRESENTATION_SUCCES.equals(presentationResponse.getAction())) {
 				mId = Integer.parseInt(presentationResponse.getReceptor());
 				return true;
 			} else {
 				return false;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
 		}
-
 	}
 
 	/* PUBLIC METHODS */
@@ -218,20 +211,44 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
-	public void writeMessage(Msg msg) throws SocketException, IOException {
-		oos.writeObject(msg);
-		oos.flush();
+	public void writeMessage(Msg msg) {
+		try {
+			oos.writeObject(msg);
+			oos.flush();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
 	 * @return Msg
-	 * @throws ClassNotFoundException if Msg.class is not found
-	 * @throws IOException            if there is any problem while reading or
-	 *                                waiting the object
-	 * @throws EOFException           with the closeure of the strem
+	 * 
 	 */
-	public Msg readMessage() throws ClassNotFoundException, IOException, EOFException {
-		return (Msg) ois.readObject();
+	public Msg readMessage() {
+		try {
+			return (Msg) ois.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public interface IExceptionListener {
+		void onReadMessage();
+
+		void onWriteMessage();
+
+		void onPresentation();
 	}
 
 }
