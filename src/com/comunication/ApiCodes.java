@@ -22,23 +22,30 @@ public interface ApiCodes {
 
     /* REQ-TYPE CODES */
     final String REQ_PRESENT = "PRESENT";
+
     final String REQ_SINGLE = "SINGLE_CHAT_REQUESTED";
+    final String REQ_CHAT = "GET_CHAT";
+
     final String REQ_SHOW_ALL_CON = "SHOW_ALL_CON";
     final String REQ_SHOW_ALL_CHAT = "SHOW_ALL_CHAT";
+    final String REQ_SHOW_ALL_MEMBERS_OF_CHAT = "SHOW_ALL_MEMBERS_OF_CHAT";
+
     final String REQ_ASKED_FOR_PERMISSION = "ASKED_FOR_PERMISSION";
     final String REQ_WAITING_FOR_PERMISSION = "WAITING_FOR_PERMISSION";
+
     final String REQ_ALLOW = "ALLOW";
     final String REQ_DENY = "DENY";
+
     final String REQ_START_SINGLE = "START_SINGLE";
     final String REQ_EXIT_SINGLE = "EXIT_SINGLE";
-    final String REQ_CHAT = "GET_CHAT";
+
     final String REQ_CREATE_CHAT = "CREATE_CHAT";
     final String REQ_INIT_CHAT = "INIT_CHAT";
-    final String REQ_SELECT_USER = "SELCT_USER";
     final String REQ_ADD_MEMBER = "ADD_MEMBER";
     final String REQ_DELETE_MEMBER = "DELETE_MEMBER";
     final String REQ_CHANGE_MEMBER_RIGHTS = "CHANGE_MEMBER_RIGHTS";
-    final String REQ_SHOW_ALL_MEMBERS_OF_CHAT ="SHOW_ALL_MEMBERS_OF_CHAT";
+
+    final String REQ_SELECT_USER = "SELCT_USER";
 
     /* ERROR-TYPE CODES */
     final String ERROR_PRESENTATION = "ERROR_PRESENTATION";
@@ -48,7 +55,9 @@ public interface ApiCodes {
     final String ERROR_CHAT_NOT_FOUND = "ERROR_CHAT_NOT_FOUND";
 
     /* MSG-TYPE CODES */
-    final String MSG_TO_SINGLE = "MSG_TO_SINGLE";
-    final String MSG_TO_CHAT = "SEND_MSG_CHAT";
+    final String MSG_TO_SINGLE = "TO_SINGLE";
+    final String MSG_SENT_TO_SINGLE = "SENT_TO_SINGLE";
+    final String MSG_TO_CHAT = "TO_CHAT";
+    final String MSG_SENT_TO_CHAT= "SENT_TO_CHAT";
 
 }

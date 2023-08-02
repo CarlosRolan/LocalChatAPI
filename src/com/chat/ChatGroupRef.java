@@ -6,9 +6,8 @@ public class ChatGroupRef {
 
     private int hashCode;
 
-
-    private ChatGroupRef(ChatGroup chat) {
-        chatGroupRefId = chat.getChatGroupId();
+    private ChatGroupRef(Chat chat) {
+        chatGroupRefId = chat.getChatId();
         hashCode = chat.hashCode();
     }
 

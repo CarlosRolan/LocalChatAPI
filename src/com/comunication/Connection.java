@@ -112,11 +112,10 @@ public class Connection extends Thread implements ApiCodes {
 		} catch (IOException e) {
 			reconnect();
 		}
-
 	}
 
 	/**
-	 * Used to instance a connection from a ServerSide-ServerSocket listener
+	 * Used to instance a connection from a SERVER-SIDE-ServerSocket listener
 	 * 
 	 * @param socket recieved from a ServerSocket.accept();
 	 */
@@ -217,11 +216,9 @@ public class Connection extends Thread implements ApiCodes {
 				oos.writeObject(msg);
 				oos.flush();
 			} catch (SocketException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				IExceptionListener.onException(e);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				IExceptionListener.onException(e);
 			}
 		}
 	}
@@ -234,22 +231,25 @@ public class Connection extends Thread implements ApiCodes {
 		try {
 			return (Msg) ois.readObject();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			IExceptionListener.onException(e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			IExceptionListener.onException(e);
 		}
 
 		return null;
 	}
 
 	public interface IExceptionListener {
-		void onReadMessage();
 
-		void onWriteMessage();
+		void onReadMsgException();
+
+		void onWriteMsgException();
 
 		void onPresentation();
+
+		static void onException(Exception e) {
+			System.out.println("Could not read the MSG" + e.getClass());
+		}
 	}
 
 }

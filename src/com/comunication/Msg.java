@@ -136,7 +136,6 @@ public class Msg implements Serializable {
                 toret += mParameters[i];
                 toret += ",";
             }
-
         }
         return toret;
     }

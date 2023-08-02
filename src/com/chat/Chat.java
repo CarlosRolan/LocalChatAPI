@@ -12,7 +12,7 @@ import com.comunication.Msg;
  * @author Carlos Rolán Díaz
  * @version beta
  */
-public class ChatGroup {
+public class Chat {
 
     public final static String CHAT_PREFIX = "3120";
 
@@ -22,18 +22,18 @@ public class ChatGroup {
      * Parameters: { TITLE, DESCRIPTION } (of the chat)
      * Body: creator nick name
      * 
-     * The chat ID is constructed as CHAT_PREFIX + creator ID
+     * The chat ID is constructed as CHAT_PREFIX + creator ID + numberOfChatsOfCreator
      * 
      * @param chatInfo Msg object that contain all info to construct and register a
      *                 chat in the SERVER
      * 
      * @return new instance of Chat object
      */
-    public static ChatGroup createChatGroupAsAdmin(Msg chatInfo) {
+    public static Chat createChatAsAdmin(Msg chatInfo, int numberChats) {
         List<Member> members = new ArrayList<Member>();
         members.add(Member.initCreator(chatInfo.getEmisor(), chatInfo.getBody()));
 
-        return new ChatGroup(CHAT_PREFIX + chatInfo.getEmisor(), chatInfo.getParameter(0), chatInfo.getParameter(1),
+        return new Chat(CHAT_PREFIX + chatInfo.getEmisor() + numberChats, chatInfo.getParameter(0), chatInfo.getParameter(1),
                 members);
     }
 
@@ -49,7 +49,7 @@ public class ChatGroup {
      * @return new instance of Chat previously constructed in Server and sended as a
      *         Msg to the cleint
      */
-    public static ChatGroup instanceChatGroup(Msg chatInfo) {
+    public static Chat instanceChat(Msg chatInfo) {
         String[] membersRaw = chatInfo.getParameters();
 
         List<Member> members = new ArrayList<Member>();
@@ -58,8 +58,7 @@ public class ChatGroup {
             members.add(new Member(membersRaw[i]));
         }
 
-        return new ChatGroup(chatInfo.getEmisor(), chatInfo.getReceptor(), chatInfo.getBody(), members);
-
+        return new Chat(chatInfo.getEmisor(), chatInfo.getReceptor(), chatInfo.getBody(), members);
     }
 
     private final List<Member> mMembers;
@@ -68,7 +67,7 @@ public class ChatGroup {
     private String mDesc;
 
     /* GETTERS */
-    public String getChatGroupId() {
+    public String getChatId() {
         return mId;
     }
 
@@ -116,13 +115,7 @@ public class ChatGroup {
     }
 
     public boolean isMemberInChat(Member check) {
-        for (Member member : mMembers) {
-            if (member.getConnectionId().equals(check.getConnectionId())) {
-                return true;
-            }
-        }
-
-        return false;
+        return mMembers.contains(check);
     }
 
     public boolean isMemberInChat(String conId) {
@@ -135,8 +128,7 @@ public class ChatGroup {
         return false;
     }
 
-
-    private ChatGroup(String chatId, String title, String description, List<Member> members) {
+    private Chat(String chatId, String title, String description, List<Member> members) {
         mId = chatId;
         mTitle = title;
         mDesc = description;
