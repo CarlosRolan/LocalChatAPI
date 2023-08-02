@@ -62,6 +62,10 @@ public class Member {
         mName = name;
     }
 
+    /**
+     * 
+     * @param memberInfo comes with the follow strucute ClientID_ClientPermission_ClientNick
+     */
     protected Member(String memberInfo) {
         String[] params = memberInfo.split("_");
 

@@ -22,18 +22,21 @@ public class Chat {
      * Parameters: { TITLE, DESCRIPTION } (of the chat)
      * Body: creator nick name
      * 
-     * The chat ID is constructed as CHAT_PREFIX + creator ID + numberOfChatsOfCreator
+     * The chat ID is constructed as CHAT_PREFIX + creator ID +
+     * numberOfChatsOfCreator
      * 
      * @param chatInfo Msg object that contain all info to construct and register a
      *                 chat in the SERVER
      * 
      * @return new instance of Chat object
      */
-    public static Chat createChatAsAdmin(Msg chatInfo, int numberChats) {
+    public static Chat createChatAsAdmin(Msg chatInfo) {
         List<Member> members = new ArrayList<Member>();
         members.add(Member.initCreator(chatInfo.getEmisor(), chatInfo.getBody()));
 
-        return new Chat(CHAT_PREFIX + chatInfo.getEmisor() + numberChats, chatInfo.getParameter(0), chatInfo.getParameter(1),
+        return new Chat(CHAT_PREFIX + chatInfo.getEmisor() + chatInfo.getReceptor(),
+                chatInfo.getParameter(0),
+                chatInfo.getParameter(1),
                 members);
     }
 
