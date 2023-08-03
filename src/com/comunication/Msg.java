@@ -12,13 +12,15 @@ import java.io.Serializable;
 public class Msg implements Serializable {
     private static final long serialVersionUID = 123456789L;
 
+    /* TYPES */
     public enum MsgType {
         REQUEST,
         MESSAGE,
         ERROR;
     }
 
-    public final MsgType PACKAGE_TYPE;
+    /* PROPERTIES */
+    public final MsgType MSG_TYPE;
     private String mAction = "NO_ACTION";
     private String[] mHeaders = { "no_emisor", "no_receptor" };
     private String[] mParameters = { null, null, null, null, null };
@@ -125,7 +127,7 @@ public class Msg implements Serializable {
 
     /* CONSTRUCTORS */
     public Msg(MsgType TYPE) {
-        PACKAGE_TYPE = TYPE;
+        MSG_TYPE = TYPE;
     }
 
     /* PUBLIC METHODS */
@@ -142,7 +144,7 @@ public class Msg implements Serializable {
 
     @Override
     public String toString() {
-        return PACKAGE_TYPE + "[" + mAction + "]\n" + "Headers:[" + mHeaders[0] + ", " + mHeaders[1] + "]\n"
+        return MSG_TYPE + "[" + mAction + "]\n" + "Headers:[" + mHeaders[0] + ", " + mHeaders[1] + "]\n"
                 + "Parameters:["
                 + showParameters() + "]\n" + "Body:{" + mBody + "}";
     }

@@ -223,6 +223,19 @@ public class Connection extends Thread implements ApiCodes {
 		}
 	}
 
+	public void writePackage(Pckg pckg) {
+		if (pckg != null) {
+			try {
+				oos.writeObject(pckg);
+				oos.flush();
+			} catch (SocketException e) {
+				IExceptionListener.onException(e);
+			} catch (IOException e) {
+				IExceptionListener.onException(e);
+			}
+		}
+	}
+
 	/**
 	 * @return Msg
 	 * 
@@ -230,6 +243,18 @@ public class Connection extends Thread implements ApiCodes {
 	public Msg readMessage() {
 		try {
 			return (Msg) ois.readObject();
+		} catch (ClassNotFoundException e) {
+			IExceptionListener.onException(e);
+		} catch (IOException e) {
+			IExceptionListener.onException(e);
+		}
+
+		return null;
+	}
+
+	public Pckg readPackage() {
+		try {
+			return (Pckg) ois.readObject();
 		} catch (ClassNotFoundException e) {
 			IExceptionListener.onException(e);
 		} catch (IOException e) {

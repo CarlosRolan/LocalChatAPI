@@ -25,6 +25,8 @@ public interface ApiCodes {
 
     final String REQ_SINGLE = "SINGLE_CHAT_REQUESTED";
     final String REQ_CHAT = "GET_CHAT";
+    final String REQ_EXIT_CHAT = "EXIT_CHAT";
+    final String REQ_DEL_CHAT = "DEL_CHAT";
 
     final String REQ_SHOW_ALL_CON = "SHOW_ALL_CON";
     final String REQ_SHOW_ALL_CHAT = "SHOW_ALL_CHAT";
@@ -47,6 +49,9 @@ public interface ApiCodes {
 
     final String REQ_SELECT_USER = "SELCT_USER";
 
+    final String REQ_GET_CHATS_INFO = "GET_CHATS_INFO";
+    final String REQ_GET_USERS_INFO = "GET_USERS_INFO";
+
     /* ERROR-TYPE CODES */
     final String ERROR_PRESENTATION = "ERROR_PRESENTATION";
     final String ERROR_SERVER_CONNECTION = "ERROR_SERVER_CONNECTION";
@@ -58,6 +63,6 @@ public interface ApiCodes {
     final String MSG_TO_SINGLE = "TO_SINGLE";
     final String MSG_SENT_TO_SINGLE = "SENT_TO_SINGLE";
     final String MSG_TO_CHAT = "TO_CHAT";
-    final String MSG_SENT_TO_CHAT= "SENT_TO_CHAT";
+    final String MSG_SENT_TO_CHAT = "SENT_TO_CHAT";
 
 }
