@@ -17,6 +17,7 @@ import com.comunication.Msg.MsgType;
  */
 public class Connection extends Thread implements ApiCodes {
 
+	private IHandler pHandler;
 	private long mId;
 	private Socket mSocket = null;
 	private String mNick = "Nameless";
@@ -77,6 +78,10 @@ public class Connection extends Thread implements ApiCodes {
 
 	public void setNick(String nick) {
 		mNick = nick;
+	}
+
+	public void setHandler(IHandler handler) {
+		pHandler = handler;
 	}
 
 	/* CONSTRUCTORS */
@@ -262,6 +267,22 @@ public class Connection extends Thread implements ApiCodes {
 		}
 
 		return null;
+	}
+
+	public void listen(Object respond) {
+		if (respond instanceof Msg) {
+
+		} else if (respond instanceof Package) {
+
+		} else {
+			throw new java.lang.Error("CANNOT READ THE COMUNICATION MESSAGES FORMAT");
+		}
+	}
+
+	public interface IHandler {
+		void handleMsg(Msg msg);
+
+		void handlePckg(Pckg pckg);
 	}
 
 	public interface IExceptionListener {
