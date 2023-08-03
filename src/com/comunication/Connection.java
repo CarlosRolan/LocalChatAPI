@@ -215,6 +215,14 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
+	public void write(Object obj) {
+		if (obj instanceof Msg) {
+			writeMessage((Msg) obj);
+		} else if (obj instanceof Pckg) {
+			writePackage((Pckg) obj);
+		}
+	}
+
 	public void writeMessage(Msg msg) {
 		if (msg != null) {
 			try {
@@ -239,6 +247,18 @@ public class Connection extends Thread implements ApiCodes {
 				IExceptionListener.onException(e);
 			}
 		}
+	}
+
+	public Object read() {
+		try {
+			return ois.readObject();
+		} catch (ClassNotFoundException e) {
+			IExceptionListener.onException(e);
+		} catch (IOException e) {
+			IExceptionListener.onException(e);
+		}
+
+		return null;
 	}
 
 	/**
