@@ -271,9 +271,9 @@ public class Connection extends Thread implements ApiCodes {
 
 	public void listen(Object respond) {
 		if (respond instanceof Msg) {
-
+			pHandler.handleMsg((Msg) respond);
 		} else if (respond instanceof Package) {
-
+			pHandler.handlePckg((Pckg) respond);
 		} else {
 			throw new java.lang.Error("CANNOT READ THE COMUNICATION MESSAGES FORMAT");
 		}
