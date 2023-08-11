@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import com.comunication.Msg.MsgType;
+import com.comunication.handlers.IMsgHandler;
+import com.comunication.handlers.IPckgHandler;
 
 /**
  * Description:
@@ -17,12 +19,14 @@ import com.comunication.Msg.MsgType;
  */
 public class Connection extends Thread implements ApiCodes {
 
-	private IHandler pHandler;
 	private long mId;
 	private Socket mSocket = null;
 	private String mNick = "Nameless";
 	private ObjectInputStream ois = null;
 	private ObjectOutputStream oos = null;
+
+	private IMsgHandler pMSGHANDLER;
+	private IPckgHandler pPCKGHANDLER;
 
 	private String hostName = "localhost";
 	private int port = 8080;
@@ -80,8 +84,12 @@ public class Connection extends Thread implements ApiCodes {
 		mNick = nick;
 	}
 
-	public void setHandler(IHandler handler) {
-		pHandler = handler;
+	public void setPckgHandler(final IPckgHandler pckgHandler) {
+		pPCKGHANDLER = pckgHandler;
+	}
+
+	public void setMsgHandler(final IMsgHandler msgHandler) {
+		pMSGHANDLER = msgHandler;
 	}
 
 	/* CONSTRUCTORS */
@@ -291,19 +299,15 @@ public class Connection extends Thread implements ApiCodes {
 
 	public void listen(Object respond) {
 		if (respond instanceof Msg) {
-			pHandler.handleMsg((Msg) respond);
+			pMSGHANDLER.handleMsg((Msg) respond);
 		} else if (respond instanceof Package) {
-			pHandler.handlePckg((Pckg) respond);
+			pPCKGHANDLER.handlePckg((Pckg) respond);
 		} else {
 			throw new java.lang.Error("CANNOT READ THE COMUNICATION MESSAGES FORMAT");
 		}
 	}
 
-	public interface IHandler {
-		void handleMsg(Msg msg);
-
-		void handlePckg(Pckg pckg);
-	}
+	
 
 	public interface IExceptionListener {
 

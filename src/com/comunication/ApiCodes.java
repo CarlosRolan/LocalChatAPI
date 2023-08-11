@@ -52,6 +52,8 @@ public interface ApiCodes {
     final String REQ_GET_CHATS_INFO = "GET_CHATS_INFO";
     final String REQ_GET_USERS_INFO = "GET_USERS_INFO";
 
+    final String REQ_UPDATE_STATE = "UPDATE_STATE";
+
     /* ERROR-TYPE CODES */
     final String ERROR_PRESENTATION = "ERROR_PRESENTATION";
     final String ERROR_SERVER_CONNECTION = "ERROR_SERVER_CONNECTION";

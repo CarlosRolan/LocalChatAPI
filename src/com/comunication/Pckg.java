@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Pckg implements Serializable {
 
-    private static final long serialVersionUID = 123456799L;
+    private static final long serialVersionUID = 123456789L;
 
     public static final int AS_ARRAY = 0;
     public static final int AS_LIST = 1;
@@ -23,6 +23,10 @@ public class Pckg implements Serializable {
     private Msg[] pMsgs;
 
     /* GETTERS */
+    public String getPckgName() {
+        return pckgName;
+    }
+
     public Msg getMsgAt(int position) {
         return pMsgs[position];
     }
@@ -49,6 +53,10 @@ public class Pckg implements Serializable {
         tempList.add(msg);
         Msg[] tempArray = msgToArray(tempList);
         setMessages(tempArray);
+    }
+
+    public void setName(String name) {
+        pckgName = name;
     }
 
     /* CONSTRUCTORS */
