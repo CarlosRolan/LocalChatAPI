@@ -84,12 +84,12 @@ public class Connection extends Thread implements ApiCodes {
 		mNick = nick;
 	}
 
-	public void setPckgHandler(final IPckgHandler pckgHandler) {
-		pPCKGHANDLER = pckgHandler;
+	public void setMsgHandler(IMsgHandler msgHandler) {
+		pMSGHANDLER = msgHandler;
 	}
 
-	public void setMsgHandler(final IMsgHandler msgHandler) {
-		pMSGHANDLER = msgHandler;
+	public void setPckgHandler(IPckgHandler pckgHandler) {
+		pPCKGHANDLER = pckgHandler;
 	}
 
 	/* CONSTRUCTORS */
@@ -98,6 +98,17 @@ public class Connection extends Thread implements ApiCodes {
 	 * 
 	 * @param nick of the user of the connection
 	 */
+	public Connection(String nick, IMsgHandler msgHandler, IPckgHandler pckgHandler) {
+		mNick = nick;
+		pMSGHANDLER = msgHandler;
+		pPCKGHANDLER = pckgHandler;
+		try {
+			initConnection();
+		} catch (IOException e) {
+			reconnect();
+		}
+	}
+
 	public Connection(String nick) {
 		mNick = nick;
 		try {
@@ -116,10 +127,13 @@ public class Connection extends Thread implements ApiCodes {
 	 * @param PORT     default 8080
 	 * 
 	 */
-	public Connection(String nick, final String HOSTNAME, final int PORT) {
+	public Connection(String nick, final String HOSTNAME, final int PORT, IMsgHandler msgHandler,
+			IPckgHandler pckgHandler) {
 		mNick = nick;
 		hostName = HOSTNAME;
 		port = PORT;
+		pMSGHANDLER = msgHandler;
+		pPCKGHANDLER = pckgHandler;
 		try {
 			initConnection(hostName, port);
 		} catch (IOException e) {
@@ -132,6 +146,18 @@ public class Connection extends Thread implements ApiCodes {
 	 * 
 	 * @param socket recieved from a ServerSocket.accept();
 	 */
+	public Connection(Socket socket, IMsgHandler msgHandler, IPckgHandler pckgHandler) {
+		mSocket = socket;
+		pMSGHANDLER = msgHandler;
+		pPCKGHANDLER = pckgHandler;
+		try {
+			oos = new ObjectOutputStream(mSocket.getOutputStream());
+			ois = new ObjectInputStream(mSocket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Connection(Socket socket) {
 		mSocket = socket;
 		try {
@@ -225,8 +251,11 @@ public class Connection extends Thread implements ApiCodes {
 
 	public void write(Object obj) {
 		if (obj instanceof Msg) {
+			System.out.println("MSG_OUT==>" + obj.toString());
 			writeMessage((Msg) obj);
-		} else if (obj instanceof Pckg) {
+		}
+		if (obj instanceof Pckg) {
+			System.out.println("PCKG_OUT==>" + obj.toString());
 			writePackage((Pckg) obj);
 		}
 	}
@@ -297,26 +326,33 @@ public class Connection extends Thread implements ApiCodes {
 		return null;
 	}
 
-	public void listen(Object respond) {
-		if (respond instanceof Msg) {
-			pMSGHANDLER.handleMsg((Msg) respond);
-		} else if (respond instanceof Package) {
-			pPCKGHANDLER.handlePckg((Pckg) respond);
-		} else {
-			throw new java.lang.Error("CANNOT READ THE COMUNICATION MESSAGES FORMAT");
-		}
+	public void listenMsg(Msg msg) {
+		pMSGHANDLER.handleMsg(msg);
 	}
 
-	
+	public void listenPckg(Pckg pckg) {
+		pPCKGHANDLER.handlePckg(pckg);
+	}
+
+	public void listen() {
+
+		Object o = read();
+
+		if (o instanceof Msg) {
+			System.out.println("<==MSG_IN_" + o.toString());
+			Msg msg = (Msg) o;
+			listenMsg(msg);
+		}
+
+		if (o instanceof Pckg) {
+			System.out.println("<==PKG_IN_" + o.toString());
+			Pckg pckg = (Pckg) o;
+			listenPckg(pckg);
+		}
+
+	}
 
 	public interface IExceptionListener {
-
-		void onReadMsgException();
-
-		void onWriteMsgException();
-
-		void onPresentation();
-
 		static void onException(Exception e) {
 			System.out.println("Could not read the MSG" + e.getClass());
 		}
