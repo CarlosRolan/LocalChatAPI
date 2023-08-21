@@ -250,7 +250,7 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
-	public void write(Object obj) throws SocketException, IOException {
+	public void write(Object obj) {
 		if (obj instanceof MSG) {
 			System.out.println("MSG_OUT==>" + obj.toString());
 			writeMessage((MSG) obj);
