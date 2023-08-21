@@ -250,7 +250,7 @@ public class Connection extends Thread implements ApiCodes {
 		System.out.println("RECONNECTED");
 	}
 
-	public void write(Object obj) {
+	public void write(Object obj) throws SocketException, IOException {
 		if (obj instanceof MSG) {
 			System.out.println("MSG_OUT==>" + obj.toString());
 			writeMessage((MSG) obj);
@@ -287,7 +287,7 @@ public class Connection extends Thread implements ApiCodes {
 		}
 	}
 
-	public Object read() {
+	public Object read() throws ClassNotFoundException, IOException {
 		try {
 			return pOis.readObject();
 		} catch (ClassNotFoundException e) {
@@ -335,28 +335,26 @@ public class Connection extends Thread implements ApiCodes {
 		pPKGHANDLER.handlePckg(pckg);
 	}
 
-	public void listen() {
+	public void listen() throws ClassNotFoundException, IOException {
 
-		Object o = read();
+		Object o = null;
 
-		if (o instanceof MSG) {
-			System.out.println("<==MSG_IN_" + o.toString());
-			MSG msg = (MSG) o;
-			listenMsg(msg);
+		o = read();
+
+		if (o != null) {
+			if (o instanceof MSG) {
+				System.out.println("<==MSG_IN_" + o.toString());
+				MSG msg = (MSG) o;
+				listenMsg(msg);
+			}
+
+			if (o instanceof PKG) {
+				System.out.println("<==PKG_IN_" + o.toString());
+				PKG pkg = (PKG) o;
+				listenPckg(pkg);
+			}
 		}
 
-		if (o instanceof PKG) {
-			System.out.println("<==PKG_IN_" + o.toString());
-			PKG pkg = (PKG) o;
-			listenPckg(pkg);
-		}
-
-	}
-
-	public interface IExceptionListener {
-		static void onException(Exception e) {
-			System.out.println("Could not read the MSG" + e.getClass());
-		}
 	}
 
 	public Member asMember() {
@@ -365,6 +363,12 @@ public class Connection extends Thread implements ApiCodes {
 
 	public String toXML() {
 		return "<connection id=" + mId + " nick=" + mNick + ">";
+	}
+
+	public interface IExceptionListener {
+		static void onException(Exception e) {
+			System.out.println("Could not read the MSG" + e.getClass());
+		}
 	}
 
 }
