@@ -64,26 +64,26 @@ public class Chat {
         return new Chat(chatInfo.getEmisor(), chatInfo.getReceptor(), chatInfo.getBody(), members);
     }
 
-    private final List<Member> mMembers;
-    private String mId;
-    private String mTitle;
-    private String mDesc;
+    private final List<Member> pMembers;
+    private String pId;
+    private String pTitle;
+    private String pDesc;
 
     /* GETTERS */
     public String getChatId() {
-        return mId;
+        return pId;
     }
 
     public String getTitle() {
-        return mTitle;
+        return pTitle;
     }
 
     public String getDescription() {
-        return mDesc;
+        return pDesc;
     }
 
     public List<Member> getMembers() {
-        return mMembers;
+        return pMembers;
     }
 
     public String[] getmembersToString() {
@@ -91,9 +91,9 @@ public class Chat {
         String[] membersString;
 
         try {
-            membersString = new String[mMembers.size()];
+            membersString = new String[pMembers.size()];
             for (int i = 0; i < membersString.length; i++) {
-                membersString[i] = mMembers.get(i).toString();
+                membersString[i] = pMembers.get(i).toString();
             }
         } catch (NullPointerException e) {
             return null;
@@ -103,26 +103,26 @@ public class Chat {
     }
 
     public void addMember(Member newMember) {
-        if (mMembers != null) {
-            mMembers.add(newMember);
+        if (pMembers != null) {
+            pMembers.add(newMember);
         }
     }
 
     /* SETTERS */
     public void setTitle(String newTitle) {
-        mTitle = newTitle;
+        pTitle = newTitle;
     }
 
     public void setDescription(String newDescription) {
-        mDesc = newDescription;
+        pDesc = newDescription;
     }
 
     public boolean isMemberInChat(Member check) {
-        return mMembers.contains(check);
+        return pMembers.contains(check);
     }
 
     public boolean isMemberInChat(String conId) {
-        for (Member member : mMembers) {
+        for (Member member : pMembers) {
             if (member.getConnectionId().equals(conId)) {
                 return true;
             }
@@ -132,16 +132,16 @@ public class Chat {
     }
 
     private Chat(String chatId, String title, String description, List<Member> members) {
-        mId = chatId;
-        mTitle = title;
-        mDesc = description;
-        mMembers = members;
+        pId = chatId;
+        pTitle = title;
+        pDesc = description;
+        pMembers = members;
     }
 
     public String toXML() {
-        String toret = "<chat id=" + mId + "title=" + mTitle + "desc=" + mDesc + ">";
+        String toret = "<chat id=" + pId + "title=" + pTitle + "desc=" + pDesc + ">";
 
-        for (Member member : mMembers) {
+        for (Member member : pMembers) {
             toret += "\n" + member.toString();
         }
 

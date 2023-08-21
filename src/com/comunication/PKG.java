@@ -19,12 +19,12 @@ public class PKG implements Serializable {
 
     /* PROPERTIES */
     public final PckgType PACKAGE_TYPE;
-    public String pckgName = "PKG_NAME";
+    public String pName = "PKG_NAME";
     private List<MSG> pMsgs = new ArrayList<>();
 
     /* GETTERS */
-    public String getPckgName() {
-        return pckgName;
+    public String getPKGName() {
+        return pName;
     }
 
     public MSG getMsgAt(int position) {
@@ -49,7 +49,7 @@ public class PKG implements Serializable {
     }
 
     public void setName(String name) {
-        pckgName = name;
+        pName = name;
     }
 
     /* CONSTRUCTORS */
@@ -71,7 +71,7 @@ public class PKG implements Serializable {
 
     @Override
     public String toString() {
-        return "[" + PACKAGE_TYPE + "]" + pckgName + messagesToString();
+        return "[" + PACKAGE_TYPE + "]" + pName + messagesToString();
     }
 
 }

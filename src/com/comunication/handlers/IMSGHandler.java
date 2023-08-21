@@ -2,7 +2,7 @@ package com.comunication.handlers;
 
 import com.comunication.MSG;
 
-public interface IMsgHandler {
+public interface IMSGHandler {
 
     void handleRequest(MSG msgRequest);
 
