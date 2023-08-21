@@ -1,14 +1,14 @@
 package com.comunication.handlers;
 
-import com.comunication.Pckg;
+import com.comunication.PKG;
 
 public interface IPckgHandler {
 
-    void handleMixed(Pckg pckgMixed);
+    void handleMixed(PKG pckgMixed);
 
-    void handleCollection(Pckg pckgCollection);
+    void handleCollection(PKG pckgCollection);
 
-    default void handlePckg(Pckg pckg) {
+    default void handlePckg(PKG pckg) {
         switch (pckg.PACKAGE_TYPE) {
 
             case MIXED:

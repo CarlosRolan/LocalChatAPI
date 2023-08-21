@@ -63,8 +63,12 @@ public interface ApiCodes {
 
     /* MSG-TYPE CODES */
     final String MSG_TO_SINGLE = "TO_SINGLE";
-    final String MSG_SENT_TO_SINGLE = "SENT_TO_SINGLE";
     final String MSG_TO_CHAT = "TO_CHAT";
-    final String MSG_SENT_TO_CHAT = "SENT_TO_CHAT";
 
+    /* WARNINGs */
+    final String WARN_UNHANDLED_MSG_MESSAGE = "MSG[MESSAGE] UNHANDLED";
+    final String WARN_UNHANDLED_MSG_ERROR = "MSG[ERROR] UNHANDLED";
+    final String WARN_UNHANDLED_MSG_REQUEST = "MSG[REQUEST] UNHANDLED";
+
+    final String WARN_UNHANDLED_PKG_COLLECTION = "PKG[COLLECTION] UNHANDLED";
 }

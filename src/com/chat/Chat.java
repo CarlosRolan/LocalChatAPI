@@ -3,7 +3,7 @@ package com.chat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.comunication.Msg;
+import com.comunication.MSG;
 
 /**
  * Description:
@@ -30,7 +30,7 @@ public class Chat {
      * 
      * @return new instance of Chat object
      */
-    public static Chat createChatAsAdmin(Msg chatInfo) {
+    public static Chat createChatAsAdmin(MSG chatInfo) {
         List<Member> members = new ArrayList<Member>();
         members.add(Member.initCreator(chatInfo.getEmisor(), chatInfo.getBody()));
 
@@ -52,7 +52,7 @@ public class Chat {
      * @return new instance of Chat previously constructed in Server and sended as a
      *         Msg to the cleint
      */
-    public static Chat instanceChat(Msg chatInfo) {
+    public static Chat instanceChat(MSG chatInfo) {
         String[] membersRaw = chatInfo.getParameters();
 
         List<Member> members = new ArrayList<Member>();
@@ -136,6 +136,16 @@ public class Chat {
         mTitle = title;
         mDesc = description;
         mMembers = members;
+    }
+
+    public String toXML() {
+        String toret = "<chat id=" + mId + "title=" + mTitle + "desc=" + mDesc + ">";
+
+        for (Member member : mMembers) {
+            toret += "\n" + member.toString();
+        }
+
+        return toret;
     }
 
 }

@@ -1,5 +1,7 @@
 package com.chat;
 
+import com.comunication.Connection;
+
 /**
  * Description:
  * Program Name: LocalChatApi
@@ -44,6 +46,18 @@ public class Member {
         return new Member(conId, name, Permission.REGULAR);
     }
 
+    public static Member regular(Connection con) {
+        return new Member(con.getConId(), con.getNick(), Permission.REGULAR);
+    }
+
+    public static Member admin(Connection con) {
+        return new Member(con.getConId(), con.getNick(), Permission.ADMIN);
+    }
+
+    public static Member newMember(Connection con, String permissions) {
+        return new Member(con.getConId(), con.getNick(), Permission.assing(permissions));
+    }
+
     private final int connectionRef;
     private final Permission mRights;
     private String mName;
@@ -64,7 +78,8 @@ public class Member {
 
     /**
      * 
-     * @param memberInfo comes with the follow strucute ClientID_ClientPermission_ClientNick
+     * @param memberInfo comes with the follow strucute
+     *                   ClientID_ClientPermission_ClientNick
      */
     protected Member(String memberInfo) {
         String[] params = memberInfo.split("_");
@@ -77,6 +92,10 @@ public class Member {
     @Override
     public String toString() {
         return connectionRef + "_" + mRights + "_" + mName;
+    }
+
+    public String toXML() {
+        return "<member connectionRef=" + connectionRef + "name=" + mName + "rights=" + mRights.name() + ">";
     }
 
 }

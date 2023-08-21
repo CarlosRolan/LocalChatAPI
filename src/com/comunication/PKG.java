@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pckg implements Serializable {
+public class PKG implements Serializable {
 
     private static final long serialVersionUID = 123456789L;
 
@@ -20,31 +20,31 @@ public class Pckg implements Serializable {
     /* PROPERTIES */
     public final PckgType PACKAGE_TYPE;
     public String pckgName = "PKG_NAME";
-    private List<Msg> pMsgs = new ArrayList<>();
+    private List<MSG> pMsgs = new ArrayList<>();
 
     /* GETTERS */
     public String getPckgName() {
         return pckgName;
     }
 
-    public Msg getMsgAt(int position) {
+    public MSG getMsgAt(int position) {
         return pMsgs.get(position);
     }
 
-    public List<Msg> getMessagesList() {
+    public List<MSG> getMessagesList() {
         return pMsgs;
     }
 
     /* SETTERS */
-    public void setMessages(List<Msg> messages) {
+    public void setMessages(List<MSG> messages) {
         pMsgs = messages;
     }
 
-    public void setMsgAt(int position, Msg msg) {
+    public void setMsgAt(int position, MSG msg) {
         pMsgs.add(position, msg);
     }
 
-    public void addMsg(Msg msg) {
+    public void addMsg(MSG msg) {
         pMsgs.add(msg);
     }
 
@@ -53,7 +53,7 @@ public class Pckg implements Serializable {
     }
 
     /* CONSTRUCTORS */
-    public Pckg(final PckgType type) {
+    public PKG(final PckgType type) {
         PACKAGE_TYPE = type;
     }
 
@@ -62,7 +62,7 @@ public class Pckg implements Serializable {
     private String messagesToString() {
         String toret = "";
         
-        for (Msg msg : pMsgs) {
+        for (MSG msg : pMsgs) {
             toret += msg.toString();
         }
 

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author Carlos Rolán Díaz
  * @version beta
  */
-public class Msg implements Serializable {
+public class MSG implements Serializable {
     private static final long serialVersionUID = 123456789L;
 
     /* TYPES */
@@ -126,7 +126,7 @@ public class Msg implements Serializable {
     }
 
     /* CONSTRUCTORS */
-    public Msg(MsgType TYPE) {
+    public MSG(MsgType TYPE) {
         MSG_TYPE = TYPE;
     }
 

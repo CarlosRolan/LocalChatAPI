@@ -1,16 +1,16 @@
 package com.comunication.handlers;
 
-import com.comunication.Msg;
+import com.comunication.MSG;
 
 public interface IMsgHandler {
 
-    void handleRequest(Msg msgRequest);
+    void handleRequest(MSG msgRequest);
 
-    void handleMessage(Msg msgMessage);
+    void handleMessage(MSG msgMessage);
 
-    void handleError(Msg msgError);
+    void handleError(MSG msgError);
 
-    default void handleMsg(Msg msg) {
+    default void handleMsg(MSG msg) {
         switch (msg.MSG_TYPE) {
             case REQUEST:
                 handleRequest(msg);

@@ -6,7 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-import com.comunication.Msg.MsgType;
+import com.chat.Member;
+import com.comunication.MSG.MsgType;
 import com.comunication.handlers.IMsgHandler;
 import com.comunication.handlers.IPckgHandler;
 
@@ -202,13 +203,13 @@ public class Connection extends Thread implements ApiCodes {
 	 *         get the confirmation from the server
 	 */
 	private boolean presentToServer() {
-		Msg presentation = new Msg(MsgType.REQUEST);
+		MSG presentation = new MSG(MsgType.REQUEST);
 		presentation.setAction(REQ_PRESENT);
 		presentation.setEmisor(getNick());
 
 		writeMessage(presentation);
 
-		Msg presentationResponse = readMessage();
+		MSG presentationResponse = readMessage();
 
 		if (presentationResponse == null) {
 			System.out.println("COULD NOT RECIEVE CONFIRMATION");
@@ -250,17 +251,17 @@ public class Connection extends Thread implements ApiCodes {
 	}
 
 	public void write(Object obj) {
-		if (obj instanceof Msg) {
+		if (obj instanceof MSG) {
 			System.out.println("MSG_OUT==>" + obj.toString());
-			writeMessage((Msg) obj);
+			writeMessage((MSG) obj);
 		}
-		if (obj instanceof Pckg) {
+		if (obj instanceof PKG) {
 			System.out.println("PCKG_OUT==>" + obj.toString());
-			writePackage((Pckg) obj);
+			writePackage((PKG) obj);
 		}
 	}
 
-	public void writeMessage(Msg msg) {
+	public void writeMessage(MSG msg) {
 		if (msg != null) {
 			try {
 				oos.writeObject(msg);
@@ -273,7 +274,7 @@ public class Connection extends Thread implements ApiCodes {
 		}
 	}
 
-	public void writePackage(Pckg pckg) {
+	public void writePackage(PKG pckg) {
 		if (pckg != null) {
 			try {
 				oos.writeObject(pckg);
@@ -302,9 +303,9 @@ public class Connection extends Thread implements ApiCodes {
 	 * @return Msg
 	 * 
 	 */
-	public Msg readMessage() {
+	public MSG readMessage() {
 		try {
-			return (Msg) ois.readObject();
+			return (MSG) ois.readObject();
 		} catch (ClassNotFoundException e) {
 			IExceptionListener.onException(e);
 		} catch (IOException e) {
@@ -314,9 +315,9 @@ public class Connection extends Thread implements ApiCodes {
 		return null;
 	}
 
-	public Pckg readPackage() {
+	public PKG readPackage() {
 		try {
-			return (Pckg) ois.readObject();
+			return (PKG) ois.readObject();
 		} catch (ClassNotFoundException e) {
 			IExceptionListener.onException(e);
 		} catch (IOException e) {
@@ -326,11 +327,11 @@ public class Connection extends Thread implements ApiCodes {
 		return null;
 	}
 
-	public void listenMsg(Msg msg) {
+	public void listenMsg(MSG msg) {
 		pMSGHANDLER.handleMsg(msg);
 	}
 
-	public void listenPckg(Pckg pckg) {
+	public void listenPckg(PKG pckg) {
 		pPCKGHANDLER.handlePckg(pckg);
 	}
 
@@ -338,15 +339,15 @@ public class Connection extends Thread implements ApiCodes {
 
 		Object o = read();
 
-		if (o instanceof Msg) {
+		if (o instanceof MSG) {
 			System.out.println("<==MSG_IN_" + o.toString());
-			Msg msg = (Msg) o;
+			MSG msg = (MSG) o;
 			listenMsg(msg);
 		}
 
-		if (o instanceof Pckg) {
+		if (o instanceof PKG) {
 			System.out.println("<==PKG_IN_" + o.toString());
-			Pckg pckg = (Pckg) o;
+			PKG pckg = (PKG) o;
 			listenPckg(pckg);
 		}
 
@@ -356,6 +357,14 @@ public class Connection extends Thread implements ApiCodes {
 		static void onException(Exception e) {
 			System.out.println("Could not read the MSG" + e.getClass());
 		}
+	}
+
+	public Member asMember() {
+		return Member.regular(String.valueOf(mId), mNick);
+	}
+
+	public String toXML() {
+		return "<connection id=" + mId + " nick=" + mNick + ">";
 	}
 
 }
