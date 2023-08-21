@@ -13,14 +13,14 @@ public class MSG implements Serializable {
     private static final long serialVersionUID = 123456789L;
 
     /* TYPES */
-    public enum MsgType {
+    public enum Type {
         REQUEST,
         MESSAGE,
         ERROR;
     }
 
     /* PROPERTIES */
-    public final MsgType MSG_TYPE;
+    public final Type MSG_TYPE;
     private String mAction = "NO_ACTION";
     private String[] mHeaders = { "no_emisor", "no_receptor" };
     private String[] mParameters = { null, null, null, null, null };
@@ -126,7 +126,7 @@ public class MSG implements Serializable {
     }
 
     /* CONSTRUCTORS */
-    public MSG(MsgType TYPE) {
+    public MSG(Type TYPE) {
         MSG_TYPE = TYPE;
     }
 

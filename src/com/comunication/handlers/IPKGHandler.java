@@ -2,7 +2,7 @@ package com.comunication.handlers;
 
 import com.comunication.PKG;
 
-public interface IPCKGHandler {
+public interface IPKGHandler {
 
     void handleMixed(PKG pkgMixed);
 

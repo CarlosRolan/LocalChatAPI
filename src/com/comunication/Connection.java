@@ -7,9 +7,9 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import com.chat.Member;
-import com.comunication.MSG.MsgType;
+import com.comunication.MSG.Type;
 import com.comunication.handlers.IMSGHandler;
-import com.comunication.handlers.IPCKGHandler;
+import com.comunication.handlers.IPKGHandler;
 
 /**
  * Description:
@@ -27,7 +27,7 @@ public class Connection extends Thread implements ApiCodes {
 	private ObjectOutputStream pOos = null;
 
 	private IMSGHandler pMSGHANDLER;
-	private IPCKGHandler pPKGHANDLER;
+	private IPKGHandler pPKGHANDLER;
 
 	private String pHostName = "localhost";
 	private int pPort = 8080;
@@ -89,7 +89,7 @@ public class Connection extends Thread implements ApiCodes {
 		pMSGHANDLER = msgHandler;
 	}
 
-	public void setPckgHandler(IPCKGHandler pckgHandler) {
+	public void setPckgHandler(IPKGHandler pckgHandler) {
 		pPKGHANDLER = pckgHandler;
 	}
 
@@ -99,7 +99,7 @@ public class Connection extends Thread implements ApiCodes {
 	 * 
 	 * @param nick of the user of the connection
 	 */
-	public Connection(String nick, IMSGHandler msgHandler, IPCKGHandler pckgHandler) {
+	public Connection(String nick, IMSGHandler msgHandler, IPKGHandler pckgHandler) {
 		mNick = nick;
 		pMSGHANDLER = msgHandler;
 		pPKGHANDLER = pckgHandler;
@@ -129,7 +129,7 @@ public class Connection extends Thread implements ApiCodes {
 	 * 
 	 */
 	public Connection(String nick, final String HOSTNAME, final int PORT, IMSGHandler msgHandler,
-			IPCKGHandler pckgHandler) {
+			IPKGHandler pckgHandler) {
 		mNick = nick;
 		pHostName = HOSTNAME;
 		pPort = PORT;
@@ -147,7 +147,7 @@ public class Connection extends Thread implements ApiCodes {
 	 * 
 	 * @param socket recieved from a ServerSocket.accept();
 	 */
-	public Connection(Socket socket, IMSGHandler msgHandler, IPCKGHandler pckgHandler) {
+	public Connection(Socket socket, IMSGHandler msgHandler, IPKGHandler pckgHandler) {
 		mSocket = socket;
 		pMSGHANDLER = msgHandler;
 		pPKGHANDLER = pckgHandler;
@@ -203,7 +203,7 @@ public class Connection extends Thread implements ApiCodes {
 	 *         get the confirmation from the server
 	 */
 	private boolean presentToServer() {
-		MSG presentation = new MSG(MsgType.REQUEST);
+		MSG presentation = new MSG(Type.REQUEST);
 		presentation.setAction(REQ_PRESENT);
 		presentation.setEmisor(getNick());
 

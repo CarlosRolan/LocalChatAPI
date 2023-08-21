@@ -12,13 +12,13 @@ public class PKG implements Serializable {
     public static final int AS_LIST = 1;
 
     /* TYPES */
-    public enum PckgType {
+    public enum Type {
         MIXED,
         COLLECTION;
     }
 
     /* PROPERTIES */
-    public final PckgType PACKAGE_TYPE;
+    public final Type PACKAGE_TYPE;
     public String pName = "PKG_NAME";
     private List<MSG> pMsgs = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class PKG implements Serializable {
     }
 
     /* CONSTRUCTORS */
-    public PKG(final PckgType type) {
+    public PKG(final Type type) {
         PACKAGE_TYPE = type;
     }
 
