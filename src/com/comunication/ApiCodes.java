@@ -23,6 +23,8 @@ public interface ApiCodes {
     /* REQ-TYPE CODES */
     final String REQ_PRESENT = "PRESENT";
 
+    final String REQ_CON_INFO = "CON_INFO";
+
     final String REQ_SINGLE = "SINGLE_CHAT_REQUESTED";
     final String REQ_CHAT = "GET_CHAT";
     final String REQ_EXIT_CHAT = "EXIT_CHAT";
