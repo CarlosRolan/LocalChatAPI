@@ -207,9 +207,26 @@ public class Connection extends Thread implements ApiCodes {
 		presentation.setAction(REQ_PRESENT);
 		presentation.setEmisor(getNick());
 
-		writeMessage(presentation);
+		try {
+			writeMessage(presentation);
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		MSG presentationResponse = readMessage();
+		MSG presentationResponse = null;
+		try {
+			presentationResponse = readMessage();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		if (presentationResponse == null) {
 			System.out.println("COULD NOT RECIEVE CONFIRMATION");
@@ -261,70 +278,32 @@ public class Connection extends Thread implements ApiCodes {
 		}
 	}
 
-	public void writeMessage(MSG msg) {
-		if (msg != null) {
-			try {
-				pOos.writeObject(msg);
-				pOos.flush();
-			} catch (SocketException e) {
-				IExceptionListener.onException(e);
-			} catch (IOException e) {
-				IExceptionListener.onException(e);
-			}
-		}
+	public void writeMessage(MSG msg) throws IOException, NullPointerException {
+		pOos.writeObject(msg);
+		pOos.flush();
 	}
 
-	public void writePackage(PKG pckg) {
-		if (pckg != null) {
-			try {
-				pOos.writeObject(pckg);
-				pOos.flush();
-			} catch (SocketException e) {
-				IExceptionListener.onException(e);
-			} catch (IOException e) {
-				IExceptionListener.onException(e);
-			}
-		}
+	public void writePackage(PKG pckg) throws IOException, NullPointerException {
+		pOos.writeObject(pckg);
+		pOos.flush();
 	}
 
 	public Object read() throws ClassNotFoundException, IOException {
-		try {
-			return pOis.readObject();
-		} catch (ClassNotFoundException e) {
-			IExceptionListener.onException(e);
-		} catch (IOException e) {
-			IExceptionListener.onException(e);
-		}
-
-		return null;
+		return pOis.readObject();
 	}
 
 	/**
 	 * @return Msg
+	 * @throws IOException
+	 * @throws ClassNotFoundException
 	 * 
 	 */
-	public MSG readMessage() {
-		try {
-			return (MSG) pOis.readObject();
-		} catch (ClassNotFoundException e) {
-			IExceptionListener.onException(e);
-		} catch (IOException e) {
-			IExceptionListener.onException(e);
-		}
-
-		return null;
+	public MSG readMessage() throws ClassNotFoundException, IOException {
+		return (MSG) pOis.readObject();
 	}
 
-	public PKG readPackage() {
-		try {
-			return (PKG) pOis.readObject();
-		} catch (ClassNotFoundException e) {
-			IExceptionListener.onException(e);
-		} catch (IOException e) {
-			IExceptionListener.onException(e);
-		}
-
-		return null;
+	public PKG readPackage() throws ClassNotFoundException, IOException {
+		return (PKG) pOis.readObject();
 	}
 
 	public void listenMsg(MSG msg) {
@@ -363,12 +342,6 @@ public class Connection extends Thread implements ApiCodes {
 
 	public String toXML() {
 		return "<connection id=" + mId + " nick=" + mNick + ">";
-	}
-
-	public interface IExceptionListener {
-		static void onException(Exception e) {
-			System.out.println("Could not read the MSG" + e.getClass());
-		}
 	}
 
 }
