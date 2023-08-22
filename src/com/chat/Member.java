@@ -38,6 +38,7 @@ public class Member {
         }
     }
 
+    /* STATIC */
     public static Member initCreator(String conId, String name) {
         return new Member(conId, name, Permission.ADMIN);
     }
@@ -62,6 +63,7 @@ public class Member {
     private final Permission mRights;
     private String mName;
 
+    /* GETTERS */
     public String getConnectionId() {
         return String.valueOf(connectionRef);
     }

@@ -20,6 +20,8 @@ public interface ApiCodes {
     final String INFO_CONNECTION_CLOSED = "CONNECTION CLOSED";
     final String INFO_PRESENTATION_SUCCES = "PRESENTATION_SUCCES";
 
+    final String COLLECTION_UPDATE = "UPDATE";
+    
     /* REQ-TYPE CODES */
     final String REQ_PRESENT = "PRESENT";
 
@@ -67,10 +69,14 @@ public interface ApiCodes {
     final String MSG_TO_SINGLE = "TO_SINGLE";
     final String MSG_TO_CHAT = "TO_CHAT";
 
+    final String MSG_SENT_TO_SINGLE = "SENT_TO_SINGLE";
+    final String MSG_SENT_TO_CHAT = "SENT_TO_CHAT";
+    
     /* WARNINGs */
     final String WARN_UNHANDLED_MSG_MESSAGE = "MSG[MESSAGE] UNHANDLED";
     final String WARN_UNHANDLED_MSG_ERROR = "MSG[ERROR] UNHANDLED";
     final String WARN_UNHANDLED_MSG_REQUEST = "MSG[REQUEST] UNHANDLED";
 
     final String WARN_UNHANDLED_PKG_COLLECTION = "PKG[COLLECTION] UNHANDLED";
+    final String WARN_UNHANDLED_PKG_MIXED = "PKG[MIXED] UNHANDLED";
 }

@@ -19,7 +19,7 @@ public class PKG implements Serializable {
 
     /* PROPERTIES */
     public final Type PACKAGE_TYPE;
-    public String pName = "PKG_NAME";
+    private String pName = "PKG_NAME";
     private List<MSG> pMsgs = new ArrayList<>();
 
     /* GETTERS */
