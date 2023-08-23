@@ -10,6 +10,7 @@ import java.io.Serializable;
  * @version beta
  */
 public class MSG implements Serializable {
+
     private static final long serialVersionUID = 123456789L;
 
     /* TYPES */
@@ -19,6 +20,7 @@ public class MSG implements Serializable {
         ERROR;
     }
 
+    // TODO makeParameters not fixed size
     /* PROPERTIES */
     public final Type MSG_TYPE;
     private String mAction = "NO_ACTION";
@@ -142,6 +144,7 @@ public class MSG implements Serializable {
         return toret;
     }
 
+    /* PARSERS */
     @Override
     public String toString() {
         return MSG_TYPE + "[" + mAction + "]\n" + "Headers:[" + mHeaders[0] + ", " + mHeaders[1] + "]\n"

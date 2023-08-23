@@ -14,8 +14,12 @@ public interface IPKGHandler {
             case MIXED:
                 handleMixed(pkg);
                 break;
+                
             case COLLECTION:
                 handleCollection(pkg);
+                break;
+
+            default:
                 break;
 
         }

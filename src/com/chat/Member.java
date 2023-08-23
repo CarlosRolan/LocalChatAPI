@@ -1,6 +1,7 @@
 package com.chat;
 
 import com.comunication.Connection;
+import com.comunication.Reference;
 
 /**
  * Description:
@@ -13,7 +14,8 @@ public class Member {
 
     protected static enum Permission {
         ADMIN("AD"),
-        REGULAR("REG");
+        REGULAR("REG"),
+        UNDEFINED("undefined");
 
         private String permCode;
 
@@ -28,7 +30,7 @@ public class Member {
                 case "REG":
                     return REGULAR;
                 default:
-                    return ADMIN;
+                    return UNDEFINED;
             }
         }
 
@@ -39,6 +41,16 @@ public class Member {
     }
 
     /* STATIC */
+    /**
+     * 
+     * @param memberRef comes with the follow strucute
+     *                  ClientID_ClientNick_ClientPermission
+     */
+    public static Member makeFromRef(String memberRef) {
+        String[] params = Reference.getRef(memberRef);
+        return new Member(params[0], params[1], Permission.assing(params[2]));
+    }
+
     public static Member initCreator(String conId, String name) {
         return new Member(conId, name, Permission.ADMIN);
     }
@@ -59,6 +71,7 @@ public class Member {
         return new Member(con.getConId(), con.getNick(), Permission.assing(permissions));
     }
 
+    /* PROPs */
     private final int connectionRef;
     private final Permission mRights;
     private String mName;
@@ -72,28 +85,16 @@ public class Member {
         return mName;
     }
 
+    /* CONSTRUCTORs */
     private Member(String conId, String name, final Permission permission) {
         connectionRef = Integer.parseInt(conId);
         mRights = permission;
         mName = name;
     }
 
-    /**
-     * 
-     * @param memberInfo comes with the follow strucute
-     *                   ClientID_ClientPermission_ClientNick
-     */
-    protected Member(String memberInfo) {
-        String[] params = memberInfo.split("_");
-
-        connectionRef = Integer.parseInt(params[0]);
-        mRights = Permission.assing(params[1]);
-        mName = params[2];
-    }
-
     @Override
     public String toString() {
-        return connectionRef + "_" + mRights + "_" + mName;
+        return connectionRef + "_" + mName + "_" + mRights;
     }
 
     public String toXML() {

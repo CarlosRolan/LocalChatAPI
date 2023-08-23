@@ -58,12 +58,13 @@ public class Chat {
         List<Member> members = new ArrayList<Member>();
 
         for (int i = 0; i < membersRaw.length; i++) {
-            members.add(new Member(membersRaw[i]));
+            members.add(Member.makeFromRef(membersRaw[i]));
         }
 
         return new Chat(chatInfo.getEmisor(), chatInfo.getReceptor(), chatInfo.getBody(), members);
     }
 
+    /* PROPs */
     private final List<Member> pMembers;
     private String pId;
     private String pTitle;
@@ -102,21 +103,6 @@ public class Chat {
         return membersString;
     }
 
-    public void addMember(Member newMember) {
-        if (pMembers != null) {
-            pMembers.add(newMember);
-        }
-    }
-
-    /* SETTERS */
-    public void setTitle(String newTitle) {
-        pTitle = newTitle;
-    }
-
-    public void setDescription(String newDescription) {
-        pDesc = newDescription;
-    }
-
     public boolean isMemberInChat(Member check) {
         return pMembers.contains(check);
     }
@@ -131,6 +117,23 @@ public class Chat {
         return false;
     }
 
+    /* SETTERS */
+    public void setTitle(String newTitle) {
+        pTitle = newTitle;
+    }
+
+    /* UTILs */
+    public void addMember(Member newMember) {
+        if (pMembers != null) {
+            pMembers.add(newMember);
+        }
+    }
+
+    public void setDescription(String newDescription) {
+        pDesc = newDescription;
+    }
+
+    /* CONSTRUCTOR */
     private Chat(String chatId, String title, String description, List<Member> members) {
         pId = chatId;
         pTitle = title;
@@ -150,4 +153,8 @@ public class Chat {
         return toret;
     }
 
+    @Override
+    public String toString() {
+        return pId + "_" + pTitle + "_" + pDesc + "_" + getmembersToString();
+    }
 }

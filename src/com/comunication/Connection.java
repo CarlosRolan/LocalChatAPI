@@ -336,6 +336,7 @@ public class Connection extends Thread implements ApiCodes {
 
 	}
 
+	/* PARSERS */
 	public Member asMember() {
 		return Member.regular(String.valueOf(mId), mNick);
 	}

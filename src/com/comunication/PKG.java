@@ -58,7 +58,6 @@ public class PKG implements Serializable {
     }
 
     /* PARSERS */
-
     private String messagesToString() {
         String toret = "";
         
