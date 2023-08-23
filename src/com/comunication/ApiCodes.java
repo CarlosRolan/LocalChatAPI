@@ -21,7 +21,7 @@ public interface ApiCodes {
     final String INFO_PRESENTATION_SUCCES = "PRESENTATION_SUCCES";
 
     final String COLLECTION_UPDATE = "UPDATE";
-    
+
     /* REQ-TYPE CODES */
     final String REQ_PRESENT = "PRESENT";
 
@@ -47,6 +47,7 @@ public interface ApiCodes {
 
     final String REQ_CREATE_CHAT = "CREATE_CHAT";
     final String REQ_INIT_CHAT = "INIT_CHAT";
+    final String REQ_INIT_CON = "INIT_CON";
     final String REQ_ADD_MEMBER = "ADD_MEMBER";
     final String REQ_DELETE_MEMBER = "DELETE_MEMBER";
     final String REQ_CHANGE_MEMBER_RIGHTS = "CHANGE_MEMBER_RIGHTS";
@@ -71,7 +72,7 @@ public interface ApiCodes {
 
     final String MSG_SENT_TO_SINGLE = "SENT_TO_SINGLE";
     final String MSG_SENT_TO_CHAT = "SENT_TO_CHAT";
-    
+
     /* WARNINGs */
     final String WARN_UNHANDLED_MSG_MESSAGE = "MSG[MESSAGE] UNHANDLED";
     final String WARN_UNHANDLED_MSG_ERROR = "MSG[ERROR] UNHANDLED";

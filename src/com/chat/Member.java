@@ -1,7 +1,6 @@
 package com.chat;
 
 import com.comunication.Connection;
-import com.comunication.Reference;
 
 /**
  * Description:
@@ -47,8 +46,8 @@ public class Member {
      *                  ClientID_ClientNick_ClientPermission
      */
     public static Member makeFromRef(String memberRef) {
-        String[] params = Reference.getRef(memberRef);
-        return new Member(params[0], params[1], Permission.assing(params[2]));
+        String[] data = memberRef.split(",");
+        return new Member(data[0], data[1], Permission.assing(data[2]));
     }
 
     public static Member initCreator(String conId, String name) {
@@ -92,8 +91,7 @@ public class Member {
         mName = name;
     }
 
-    @Override
-    public String toString() {
+    public String toReference() {
         return connectionRef + "_" + mName + "_" + mRights;
     }
 

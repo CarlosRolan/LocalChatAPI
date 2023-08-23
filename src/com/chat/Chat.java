@@ -16,6 +16,18 @@ public class Chat {
 
     public final static String CHAT_PREFIX = "3120";
 
+    public static Chat makeFromRef(String chatRef) {
+        String[] data = chatRef.split("_");
+        String[] membersData = data[3].split(",");
+        List<Member> membersList = new ArrayList<>();
+
+        for (int i = 0; i < membersData.length; i++) {
+            Member fromRef = Member.makeFromRef(membersData[i]);
+            membersList.add(fromRef);
+        }
+        return new Chat(data[0], data[1], data[2], membersList);
+    }
+
     /**
      * The data in the Msg is store like:
      * Emisor: creator ID.
@@ -87,20 +99,20 @@ public class Chat {
         return pMembers;
     }
 
-    public String[] getmembersToString() {
+    public String[] getMembersRef() {
 
-        String[] membersString;
+        String[] membersRef;
 
         try {
-            membersString = new String[pMembers.size()];
-            for (int i = 0; i < membersString.length; i++) {
-                membersString[i] = pMembers.get(i).toString();
+            membersRef = new String[pMembers.size()];
+            for (int i = 0; i < membersRef.length; i++) {
+                membersRef[i] = pMembers.get(i).toReference();
             }
         } catch (NullPointerException e) {
             return null;
         }
 
-        return membersString;
+        return membersRef;
     }
 
     public boolean isMemberInChat(Member check) {
@@ -153,8 +165,7 @@ public class Chat {
         return toret;
     }
 
-    @Override
-    public String toString() {
-        return pId + "_" + pTitle + "_" + pDesc + "_" + getmembersToString();
+    public String toReference() {
+        return pId + "_" + pTitle + "_" + pDesc + "_" + getMembersRef();
     }
 }

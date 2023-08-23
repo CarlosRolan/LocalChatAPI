@@ -5,7 +5,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.chat.Chat;
 import com.chat.Member;
 import com.comunication.MSG.Type;
 import com.comunication.handlers.IMSGHandler;
@@ -31,6 +34,8 @@ public class Connection extends Thread implements ApiCodes {
 
 	private String pHostName = "localhost";
 	private int pPort = 8080;
+
+	private List<String> chatsRefList;
 
 	/* GETTERS */
 	/**
@@ -63,6 +68,21 @@ public class Connection extends Thread implements ApiCodes {
 	 */
 	public ObjectOutputStream getpOos() {
 		return pOos;
+	}
+
+	public List<Chat> getChats() {
+		List<Chat> toret = new ArrayList<>();
+
+		for (String chatRef : chatsRefList) {
+			Chat fromRef = Chat.makeFromRef(chatRef);
+			toret.add(fromRef);
+		}
+
+		return toret;
+	}
+
+	public String[] getChatsRef() {
+		return (String[]) chatsRefList.toArray();
 	}
 
 	/**
