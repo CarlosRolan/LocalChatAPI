@@ -139,7 +139,7 @@ public class Chat {
     }
 
     public String toXML() {
-        String toret = "<chat id=" + pId + " title=" + pTitle + " desc=" + pDesc + ">";
+        String toret = "<chat id=" + pId + " title='" + pTitle + "'' desc='" + pDesc + "''>";
 
         for (Member member : pMembers) {
             toret += "\n\t" + member.toXML();

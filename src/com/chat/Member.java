@@ -97,7 +97,7 @@ public class Member {
     }
 
     public String toXML() {
-        return "<member connectionRef=" + connectionRef + " name=" + mName + " rights=" + mRights.name() + "/>";
+        return "<member connectionRef=" + connectionRef + " name='" + mName + "'' rights='" + mRights.name() + "'/>";
     }
 
 }
