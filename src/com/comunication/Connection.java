@@ -365,4 +365,8 @@ public class Connection extends Thread implements ApiCodes {
 		return "<connection id=" + mId + " nick=" + mNick + ">";
 	}
 
+	public String toReference() {
+		return mId + "_" + mNick;
+	}
+
 }
