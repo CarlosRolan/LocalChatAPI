@@ -18,7 +18,7 @@ public class Chat {
 
     public static Chat makeFromRef(String chatRef) {
         String[] data = chatRef.split("_");
-        String[] membersData = data[3].split(",");
+        String[] membersData = data[3].split("-");
         List<Member> membersList = new ArrayList<>();
 
         for (int i = 0; i < membersData.length; i++) {
@@ -66,7 +66,6 @@ public class Chat {
      */
     public static Chat instanceChat(MSG chatInfo) {
         String[] membersRaw = chatInfo.getParameters();
-
         List<Member> members = new ArrayList<Member>();
 
         for (int i = 0; i < membersRaw.length; i++) {
@@ -83,6 +82,16 @@ public class Chat {
     private String pDesc;
 
     /* GETTERS */
+
+    public Member getMember(String conId) {
+        for (Member member : pMembers) {
+            if (conId.equals(member.getConnectionId()))
+                return member;
+        }
+
+        return null;
+    }
+
     public String getChatId() {
         return pId;
     }
@@ -106,7 +115,7 @@ public class Chat {
         try {
             membersRef = new String[pMembers.size()];
             for (int i = 0; i < membersRef.length; i++) {
-                membersRef[i] = pMembers.get(i).toReference();
+                membersRef[i] = pMembers.get(i).toString();
             }
         } catch (NullPointerException e) {
             return null;
@@ -165,7 +174,8 @@ public class Chat {
         return toret;
     }
 
-    public String toReference() {
+    @Override
+    public String toString() {
         return pId + "_" + pTitle + "_" + pDesc + "_" + getMembersRef();
     }
 }

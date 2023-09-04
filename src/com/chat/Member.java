@@ -46,7 +46,7 @@ public class Member {
      *                  ClientID_ClientNick_ClientPermission
      */
     public static Member makeFromRef(String memberRef) {
-        String[] data = memberRef.split(",");
+        String[] data = memberRef.split("-");
         return new Member(data[0], data[1], Permission.assing(data[2]));
     }
 
@@ -76,6 +76,14 @@ public class Member {
     private String mName;
 
     /* GETTERS */
+    public boolean isAdmin() {
+        if (mRights == Permission.ADMIN) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String getConnectionId() {
         return String.valueOf(connectionRef);
     }
@@ -91,8 +99,9 @@ public class Member {
         mName = name;
     }
 
-    public String toReference() {
-        return connectionRef + "_" + mName + "_" + mRights;
+    @Override
+    public String toString() {
+        return connectionRef + "-" + mName + "-" + mRights;
     }
 
     public String toXML() {
