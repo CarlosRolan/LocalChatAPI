@@ -1,9 +1,6 @@
 package com.chat;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.comunication.MSG;
 
 /**
  * Description:
@@ -14,66 +11,9 @@ import com.comunication.MSG;
  */
 public class Chat {
 
-    public final static String CHAT_PREFIX = "3120";
+    final String REF_SEPARATOR = "_";
 
-    public static Chat makeFromRef(String chatRef) {
-        String[] data = chatRef.split("_");
-        String[] membersData = data[3].split("-");
-        List<Member> membersList = new ArrayList<>();
-
-        for (int i = 0; i < membersData.length; i++) {
-            Member fromRef = Member.makeFromRef(membersData[i]);
-            membersList.add(fromRef);
-        }
-        return new Chat(data[0], data[1], data[2], membersList);
-    }
-
-    /**
-     * The data in the Msg is store like:
-     * Emisor: creator ID.
-     * Parameters: { TITLE, DESCRIPTION } (of the chat)
-     * Body: creator nick name
-     * 
-     * The chat ID is constructed as CHAT_PREFIX + creator ID +
-     * numberOfChatsOfCreator
-     * 
-     * @param chatInfo Msg object that contain all info to construct and register a
-     *                 chat in the SERVER
-     * 
-     * @return new instance of Chat object
-     */
-    public static Chat createChatAsAdmin(MSG chatInfo) {
-        List<Member> members = new ArrayList<Member>();
-        members.add(Member.initCreator(chatInfo.getEmisor(), chatInfo.getBody()));
-
-        return new Chat(CHAT_PREFIX + chatInfo.getEmisor() + chatInfo.getReceptor(),
-                chatInfo.getParameter(0),
-                chatInfo.getParameter(1),
-                members);
-    }
-
-    /**
-     * The data in the Msg is store like:
-     * Emisor: Chat ID.
-     * Receptor: Chat Title
-     * Parameters: { members as a string }
-     * Body: Chat Description
-     * 
-     * @param chatInfo Msg object that contain all info of a Chat
-     * 
-     * @return new instance of Chat previously constructed in Server and sended as a
-     *         Msg to the cleint
-     */
-    public static Chat instanceChat(MSG chatInfo) {
-        String[] membersRaw = chatInfo.getParameters();
-        List<Member> members = new ArrayList<Member>();
-
-        for (int i = 0; i < membersRaw.length; i++) {
-            members.add(Member.makeFromRef(membersRaw[i]));
-        }
-
-        return new Chat(chatInfo.getEmisor(), chatInfo.getReceptor(), chatInfo.getBody(), members);
-    }
+    final static String CHAT_PREFIX = "3120";
 
     /* PROPs */
     private final List<Member> pMembers;
@@ -155,7 +95,7 @@ public class Chat {
     }
 
     /* CONSTRUCTOR */
-    private Chat(String chatId, String title, String description, List<Member> members) {
+    Chat(String chatId, String title, String description, List<Member> members) {
         pId = chatId;
         pTitle = title;
         pDesc = description;
@@ -174,8 +114,16 @@ public class Chat {
         return toret;
     }
 
-    @Override
-    public String toString() {
-        return pId + "_" + pTitle + "_" + pDesc + "_" + getMembersRef();
+    public String getReference(Chat chat) {
+        String reference = null;
+
+        try {
+            reference = chat.getChatId() + REF_SEPARATOR + chat.getTitle() + REF_SEPARATOR + chat.getChatId() + REF_SEPARATOR
+                    + getMembersRef();
+        } catch (NullPointerException e) {
+            System.err.println("Cannot get reference from a null chat");
+        }
+
+        return reference;
     }
 }

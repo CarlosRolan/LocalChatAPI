@@ -1,6 +1,6 @@
-package com.comunication.handlers;
+package com.controller.handlers;
 
-import com.comunication.PKG;
+import com.data.PKG;
 
 public interface IPKGHandler {
 

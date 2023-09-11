@@ -1,4 +1,4 @@
-package com.comunication;
+package com.api;
 
 /**
  * Description:
@@ -7,7 +7,7 @@ package com.comunication;
  * @author Carlos Rolán Díaz
  * @version beta
  */
-public interface ApiCodes {
+public interface Codes {
 
     /* INFO-TYPE CODES */
     final String INFO_PRESENTATION_START = "INFO_PRESNTATION_START";
@@ -73,11 +73,14 @@ public interface ApiCodes {
     final String MSG_SENT_TO_SINGLE = "SENT_TO_SINGLE";
     final String MSG_SENT_TO_CHAT = "SENT_TO_CHAT";
 
-    /* WARNINGs */
-    final String WARN_UNHANDLED_MSG_MESSAGE = "MSG[MESSAGE] UNHANDLED";
-    final String WARN_UNHANDLED_MSG_ERROR = "MSG[ERROR] UNHANDLED";
-    final String WARN_UNHANDLED_MSG_REQUEST = "MSG[REQUEST] UNHANDLED";
+    final String MSG_RECIEVED_FROM_CHAT = "RECIEVED_FROM_CHAT";
+    final String MSG_RECIEVED_FROM_SINGLE = "RECIEVED_FROM_SINGLE";
 
-    final String WARN_UNHANDLED_PKG_COLLECTION = "PKG[COLLECTION] UNHANDLED";
-    final String WARN_UNHANDLED_PKG_MIXED = "PKG[MIXED] UNHANDLED";
+    /* WARNINGs */
+    final String WARN_UNREGISTERED_MSG_MESSAGE_ACTION = "MSG[MESSAGE] UNHANDLED";
+    final String WARN_UREGISTERED_MSG_ERROR_ACTION = "MSG[ERROR] UNHANDLED";
+    final String WARN_UNREGISTERED_MSG_REQUEST_ACTION = "MSG[REQUEST] UNHANDLED";
+
+    final String WARN_UNREGISTERED_PKG_COLLECTION_ACTION = "PKG[COLLECTION] UNHANDLED";
+    final String WARN_UNREGISTERED_PKG_MIXED_ACTION = "PKG[MIXED] UNHANDLED";
 }

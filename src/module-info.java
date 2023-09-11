@@ -5,6 +5,8 @@
  */
 module LocalChat {
     exports com.chat;
-    exports com.comunication;
-    exports com.comunication.handlers;
+    exports com.controller;
+    exports com.controller.handlers;
+    exports com.data;
+    exports com.api;
 }

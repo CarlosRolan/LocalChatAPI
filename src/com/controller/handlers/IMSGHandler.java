@@ -1,6 +1,6 @@
-package com.comunication.handlers;
+package com.controller.handlers;
 
-import com.comunication.MSG;
+import com.data.MSG;
 
 public interface IMSGHandler {
 

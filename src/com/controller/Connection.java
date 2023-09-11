@@ -1,4 +1,4 @@
-package com.comunication;
+package com.controller;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -6,10 +6,12 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-import com.chat.Member;
-import com.comunication.MSG.Type;
-import com.comunication.handlers.IMSGHandler;
-import com.comunication.handlers.IPKGHandler;
+import com.api.Codes;
+import com.controller.handlers.IMSGHandler;
+import com.controller.handlers.IPKGHandler;
+import com.data.MSG;
+import com.data.MSG.Type;
+import com.data.PKG;
 
 /**
  * Description:
@@ -18,7 +20,7 @@ import com.comunication.handlers.IPKGHandler;
  * @author Carlos Rolán Díaz
  * @version beta
  */
-public abstract class Connection extends Thread implements ApiCodes {
+public abstract class Connection extends Thread implements Codes {
 
 	private long mId;
 	private Socket mSocket = null;
@@ -50,22 +52,6 @@ public abstract class Connection extends Thread implements ApiCodes {
 	}
 
 	/**
-	 * 
-	 * @return Connection's ObjectInPutStream
-	 */
-	public ObjectInputStream getOis() {
-		return mOis;
-	}
-
-	/**
-	 * 
-	 * @return Connection's ObjectOutPutStream
-	 */
-	public ObjectOutputStream getOos() {
-		return mOos;
-	}
-
-	/**
 	 * @param id the conection ID as a String
 	 */
 	/* SETTERS */
@@ -83,14 +69,6 @@ public abstract class Connection extends Thread implements ApiCodes {
 
 	public void setNick(String nick) {
 		mNick = nick;
-	}
-
-	public void setMsgHandler(IMSGHandler msgHandler) {
-		mMSGHandler = msgHandler;
-	}
-
-	public void setPckgHandler(IPKGHandler pckgHandler) {
-		mPKGHandler = pckgHandler;
 	}
 
 	/* CONSTRUCTORS */
@@ -339,9 +317,6 @@ public abstract class Connection extends Thread implements ApiCodes {
 	}
 
 	/* PARSERS */
-	public Member asMember() {
-		return Member.regular(String.valueOf(mId), mNick);
-	}
 
 	public String toXML() {
 		return "<connection id=" + mId + " nick=" + mNick + ">";
@@ -351,5 +326,4 @@ public abstract class Connection extends Thread implements ApiCodes {
 	public String toString() {
 		return mId + "_" + mNick;
 	}
-
 }

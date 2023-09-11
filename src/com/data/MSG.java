@@ -1,4 +1,4 @@
-package com.comunication;
+package com.data;
 
 import java.io.Serializable;
 

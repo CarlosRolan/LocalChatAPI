@@ -1,6 +1,6 @@
 package com.chat;
 
-import com.comunication.Connection;
+import com.controller.Connection;
 
 /**
  * Description:
@@ -93,7 +93,7 @@ public class Member {
     }
 
     /* CONSTRUCTORs */
-    private Member(String conId, String name, final Permission permission) {
+    Member(String conId, String name, final Permission permission) {
         connectionRef = Integer.parseInt(conId);
         mRights = permission;
         mName = name;
