@@ -8,21 +8,6 @@ public interface IPKGHandler {
 
     void handleCollection(PKG pkgCollection);
 
-    default void handlePckg(PKG pkg) {
-        switch (pkg.PACKAGE_TYPE) {
-
-            case MIXED:
-                handleMixed(pkg);
-                break;
-                
-            case COLLECTION:
-                handleCollection(pkg);
-                break;
-
-            default:
-                break;
-
-        }
-    }
+    void unHandledPKG(PKG unHandled);
 
 }
