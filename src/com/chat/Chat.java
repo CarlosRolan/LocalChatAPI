@@ -1,5 +1,6 @@
 package com.chat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class Chat {
 
     /* PROPs */
     private final List<Member> pMembers;
-    private String pId;
+    private final String pId;
     private String pTitle;
     private String pDesc;
 
@@ -50,18 +51,36 @@ public class Chat {
 
     public String[] getMembersRef() {
 
-        String[] membersRef;
+        String[] toret;
 
         try {
-            membersRef = new String[pMembers.size()];
-            for (int i = 0; i < membersRef.length; i++) {
-                membersRef[i] = pMembers.get(i).toString();
+            toret = new String[pMembers.size()];
+            for (int i = 0; i < toret.length; i++) {
+                System.out.println("IN_CHAT_CLASS:" + pMembers.get(i).getReference());
+                toret[i] = pMembers.get(i).getReference();
             }
         } catch (NullPointerException e) {
             return null;
         }
+        System.out.println("TORET:" + toret);
 
-        return membersRef;
+        return toret;
+    }
+
+    public String getMemberRefAsString() {
+          String toret = "";
+
+        try {
+            for (int i = 0; i < pMembers.size(); i++) {
+                System.out.println("IN_CHAT_CLASS:" + pMembers.get(i).getReference());
+                toret += pMembers.get(i).getReference() + Member.SEPARATOR;
+            }
+        } catch (NullPointerException e) {
+            return null;
+        }
+        System.out.println("TORET:" + toret);
+
+        return toret;
     }
 
     public boolean isMemberInChat(Member check) {
@@ -102,6 +121,14 @@ public class Chat {
         pMembers = members;
     }
 
+    Chat(Member creator, String chatId, String chatTitle, String chatDesc) {
+        pMembers = new ArrayList<>();
+        pMembers.add(creator);
+        pId = chatId;
+        pTitle = chatTitle;
+        pDesc = chatDesc;
+    }
+
     public String toXML() {
         String toret = "<chat id=" + pId + " title='" + pTitle + "'' desc='" + pDesc + "''>";
 
@@ -118,8 +145,8 @@ public class Chat {
         String reference = null;
 
         try {
-            reference = getChatId() + REF_SEPARATOR + getTitle() + REF_SEPARATOR + getChatId() + REF_SEPARATOR
-                    + getMembersRef();
+            reference = getChatId() + REF_SEPARATOR + getTitle() + REF_SEPARATOR + getDescription() + REF_SEPARATOR
+                    + getMemberRefAsString();
         } catch (NullPointerException e) {
             System.err.println("Cannot get reference from a null chat");
         }

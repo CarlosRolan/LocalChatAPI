@@ -8,6 +8,7 @@ package com.chat;
  * @version beta
  */
 public class Member {
+    final static String SEPARATOR = "-";
 
     protected static enum Permission {
         ADMIN("AD"),
@@ -66,9 +67,8 @@ public class Member {
         mName = name;
     }
 
-    @Override
-    public String toString() {
-        return connectionRef + "-" + mName + "-" + mRights;
+    public String getReference() {
+        return connectionRef + SEPARATOR + mName + SEPARATOR + mRights;
     }
 
     public String toXML() {
