@@ -114,11 +114,11 @@ public class Chat {
         return toret;
     }
 
-    public String getReference(Chat chat) {
+    public String getReference() {
         String reference = null;
 
         try {
-            reference = chat.getChatId() + REF_SEPARATOR + chat.getTitle() + REF_SEPARATOR + chat.getChatId() + REF_SEPARATOR
+            reference = getChatId() + REF_SEPARATOR + getTitle() + REF_SEPARATOR + getChatId() + REF_SEPARATOR
                     + getMembersRef();
         } catch (NullPointerException e) {
             System.err.println("Cannot get reference from a null chat");

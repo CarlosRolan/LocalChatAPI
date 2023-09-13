@@ -326,4 +326,8 @@ public abstract class Connection extends Thread implements Codes {
 	public String toString() {
 		return mId + "_" + mNick;
 	}
+
+	public String getReference() {
+		return mId + "_" + mNick;
+	}
 }

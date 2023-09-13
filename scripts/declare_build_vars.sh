@@ -8,5 +8,8 @@ export DOCS_FOLDER=docs
 export BUILD_FOLDER=build
 export LIB_FOLDER=lib
 
-export PCKG_COMUNICATION="com.comunication"
-export PCKG_CHAT="com.chat"
+export PKG_CONTROLLER="com.controller"
+export PKG_CHAT="com.chat"
+export PKG_API="com.api"
+export PKG_CONTROLLER_HANDLERS="com.controller.handlers"
+export PKG_DATA="com.data"

@@ -78,7 +78,7 @@ public class ChatBuilder {
         String[] data = memberRef.split("-");
         return new Member(data[0], data[1], Permission.assing(data[2]));
     }
-
+    
     public static Member initCreator(String conId, String name) {
         return new Member(conId, name, Permission.ADMIN);
     }

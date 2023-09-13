@@ -5,13 +5,13 @@
 # Function to compile the Java project
 function compile_java_project {
   javac -d $OUTPUT_FOLDER $COMPILATION_PATH src/module-info.java
-  javadoc -d $DOCS_PATH -sourcepath $SOURCE_PATH -subpackages $PCKG_COMUNICATION $PCKG_CHAT
+  javadoc -d $DOCS_PATH -sourcepath $SOURCE_PATH -subpackages $PKG_CONTROLLER $PKG_CHAT $PKG_API $PKG_CONTROLLER_HANDLERS $PKG_DATA
 }
 
 # Function to create the JAR file
 function create_jar {
   cd $OUTPUT_FOLDER
-  jar cvf ../$BUILD_PATH -C . com/comunication -C . com/chat -C .. /docs
+  jar cvf ../$BUILD_PATH -C . com/api -C . com/chat -C . com/controller -C . com/controller/handlers -C . com/data  -C .. /docs
 }
 
 # Function to go to the root folder

@@ -1,7 +1,5 @@
 package com.chat;
 
-import com.controller.Connection;
-
 /**
  * Description:
  * Program Name: LocalChatApi
@@ -37,37 +35,6 @@ public class Member {
         public String toString() {
             return permCode;
         }
-    }
-
-    /* STATIC */
-    /**
-     * 
-     * @param memberRef comes with the follow strucute
-     *                  ClientID_ClientNick_ClientPermission
-     */
-    public static Member makeFromRef(String memberRef) {
-        String[] data = memberRef.split("-");
-        return new Member(data[0], data[1], Permission.assing(data[2]));
-    }
-
-    public static Member initCreator(String conId, String name) {
-        return new Member(conId, name, Permission.ADMIN);
-    }
-
-    public static Member regular(String conId, String name) {
-        return new Member(conId, name, Permission.REGULAR);
-    }
-
-    public static Member regular(Connection con) {
-        return new Member(con.getConId(), con.getNick(), Permission.REGULAR);
-    }
-
-    public static Member admin(Connection con) {
-        return new Member(con.getConId(), con.getNick(), Permission.ADMIN);
-    }
-
-    public static Member newMember(Connection con, String permissions) {
-        return new Member(con.getConId(), con.getNick(), Permission.assing(permissions));
     }
 
     /* PROPs */
