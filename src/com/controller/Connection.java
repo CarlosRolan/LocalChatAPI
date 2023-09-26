@@ -88,6 +88,10 @@ public abstract class Connection extends Thread implements Codes {
 		}
 	}
 
+	/**
+	 * 
+	 * @param nick
+	 */
 	public Connection(String nick) {
 		mNick = nick;
 		try {
@@ -123,7 +127,9 @@ public abstract class Connection extends Thread implements Codes {
 	/**
 	 * Used to instance a connection from a SERVER-SIDE-ServerSocket listener
 	 * 
-	 * @param socket recieved from a ServerSocket.accept();
+	 * @param socket      recieved from a ServerSocket.accept();
+	 * @param msgHandler
+	 * @param pckgHandler
 	 */
 	public Connection(Socket socket, IMSGHandler msgHandler, IPKGHandler pckgHandler) {
 		mSocket = socket;
@@ -137,6 +143,10 @@ public abstract class Connection extends Thread implements Codes {
 		}
 	}
 
+	/**
+	 * 
+	 * @param socket
+	 */
 	public Connection(Socket socket) {
 		mSocket = socket;
 		try {
@@ -148,6 +158,10 @@ public abstract class Connection extends Thread implements Codes {
 	}
 
 	/* PRVATE METHODS */
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	private void initConnection() throws IOException {
 		mSocket = new Socket("localhost", 8080);
 		mOos = new ObjectOutputStream(mSocket.getOutputStream());
@@ -155,6 +169,12 @@ public abstract class Connection extends Thread implements Codes {
 		presentation();
 	}
 
+	/**
+	 * 
+	 * @param HOSTNAME
+	 * @param PORT
+	 * @throws IOException
+	 */
 	private void initConnection(final String HOSTNAME, final int PORT) throws IOException {
 		mSocket = new Socket(HOSTNAME, PORT);
 		mOos = new ObjectOutputStream(mSocket.getOutputStream());
@@ -162,11 +182,7 @@ public abstract class Connection extends Thread implements Codes {
 		presentation();
 	}
 
-	/**
-	 * This method encapsulates the presentation process from CLIENT to SERVER as
-	 * well his response to the
-	 * client side
-	 */
+	/** */
 	public void presentation() {
 		if (presentToServer()) {
 			System.out.println(INFO_CONECXION_ACCEPTED);
@@ -216,6 +232,8 @@ public abstract class Connection extends Thread implements Codes {
 	}
 
 	/* PUBLIC METHODS */
+
+
 	public void reconnect() {
 		String dots = "";
 		while (true) {
@@ -320,11 +338,6 @@ public abstract class Connection extends Thread implements Codes {
 
 	public String toXML() {
 		return "<connection id=" + mId + " nick=" + mNick + ">";
-	}
-
-	@Override
-	public String toString() {
-		return mId + "_" + mNick;
 	}
 
 	public String getReference() {

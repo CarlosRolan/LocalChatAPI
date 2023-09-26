@@ -1,6 +1,5 @@
 package com.chat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class Chat {
 
-    final String REF_SEPARATOR = "_";
+    final static String SEPARATOR = "_";
 
     final static String CHAT_PREFIX = "3120";
 
@@ -23,7 +22,11 @@ public class Chat {
     private String pDesc;
 
     /* GETTERS */
-
+    /**
+     * 
+     * @param conId
+     * @return
+     */
     public Member getMember(String conId) {
         for (Member member : pMembers) {
             if (conId.equals(member.getConnectionId()))
@@ -41,14 +44,26 @@ public class Chat {
         return pTitle;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getDescription() {
         return pDesc;
     }
 
+    /**
+     * 
+     * @return
+     */
     public List<Member> getMembers() {
         return pMembers;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String[] getMembersRef() {
 
         String[] toret;
@@ -56,37 +71,52 @@ public class Chat {
         try {
             toret = new String[pMembers.size()];
             for (int i = 0; i < toret.length; i++) {
-                System.out.println("IN_CHAT_CLASS:" + pMembers.get(i).getReference());
                 toret[i] = pMembers.get(i).getReference();
             }
         } catch (NullPointerException e) {
             return null;
         }
-        System.out.println("TORET:" + toret);
 
         return toret;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getMemberRefAsString() {
-          String toret = "";
+        String toret = "";
 
         try {
             for (int i = 0; i < pMembers.size(); i++) {
-                System.out.println("IN_CHAT_CLASS:" + pMembers.get(i).getReference());
-                toret += pMembers.get(i).getReference() + Member.SEPARATOR;
-            }
+                if (i == pMembers.size()) {
+                    toret += pMembers.get(i).getReference();
+                } else {
+                    toret += pMembers.get(i).getReference() + Member.SEPARATOR;
+                }
+
+            } 
         } catch (NullPointerException e) {
             return null;
         }
-        System.out.println("TORET:" + toret);
 
         return toret;
     }
 
+    /**
+     * 
+     * @param check
+     * @return
+     */
     public boolean isMemberInChat(Member check) {
         return pMembers.contains(check);
     }
 
+    /**
+     * 
+     * @param conId
+     * @return
+     */
     public boolean isMemberInChat(String conId) {
         for (Member member : pMembers) {
             if (member.getConnectionId().equals(conId)) {
@@ -98,22 +128,41 @@ public class Chat {
     }
 
     /* SETTERS */
+    /**
+     * 
+     * @param newTitle
+     */
     public void setTitle(String newTitle) {
         pTitle = newTitle;
     }
 
     /* UTILs */
+    /**
+     * 
+     * @param newMember
+     */
     public void addMember(Member newMember) {
         if (pMembers != null) {
             pMembers.add(newMember);
         }
     }
 
+    /**
+     * 
+     * @param newDescription
+     */
     public void setDescription(String newDescription) {
         pDesc = newDescription;
     }
 
     /* CONSTRUCTOR */
+    /**
+     * 
+     * @param chatId
+     * @param title
+     * @param description
+     * @param members
+     */
     Chat(String chatId, String title, String description, List<Member> members) {
         pId = chatId;
         pTitle = title;
@@ -121,14 +170,12 @@ public class Chat {
         pMembers = members;
     }
 
-    Chat(Member creator, String chatId, String chatTitle, String chatDesc) {
-        pMembers = new ArrayList<>();
-        pMembers.add(creator);
-        pId = chatId;
-        pTitle = chatTitle;
-        pDesc = chatDesc;
-    }
 
+
+    /**
+     * 
+     * @return
+     */
     public String toXML() {
         String toret = "<chat id=" + pId + " title='" + pTitle + "'' desc='" + pDesc + "''>";
 
@@ -141,11 +188,15 @@ public class Chat {
         return toret;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getReference() {
         String reference = null;
 
         try {
-            reference = getChatId() + REF_SEPARATOR + getTitle() + REF_SEPARATOR + getDescription() + REF_SEPARATOR
+            reference = getChatId() + SEPARATOR + getTitle() + SEPARATOR + getDescription() + SEPARATOR
                     + getMemberRefAsString();
         } catch (NullPointerException e) {
             System.err.println("Cannot get reference from a null chat");
