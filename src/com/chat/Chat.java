@@ -1,6 +1,9 @@
 package com.chat;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.data.MSG;
 
 /**
  * Description:
@@ -11,9 +14,136 @@ import java.util.List;
  */
 public class Chat {
 
+    /* STATIC */
+
     final static String SEPARATOR = "_";
 
     final static String CHAT_PREFIX = "3120";
+
+    public static List<Member> getMembersList(String[] memberRefs) {
+        List<Member> toret = new ArrayList<>();
+
+        for (int i = 0; i < memberRefs.length; i++) {
+            Member member = Member.initMember(memberRefs[i]);
+            toret.add(member);
+        }
+
+        return toret;
+    }
+
+    /**
+     * 
+     * @param creatorId         creatorID
+     * @param numChatsOfCreator numberOfChatsOfCreator
+     * @return CHAT_PREFIX + creatorID + numberOfChatsOfCreator
+     */
+    private static String generateChatCode(String creatorId, String numChatsOfCreator) {
+        return Chat.CHAT_PREFIX + creatorId + numChatsOfCreator;
+    }
+
+    /**
+     * 
+     * @param chatId creatorID + numberOfChatsOfCreator
+     * @return CHAT_PREFIX + creatorID + numberOfChatsOfCreator
+     */
+    private static String generateChatCode(String chatId) {
+        return Chat.CHAT_PREFIX + chatId;
+    }
+
+    /**
+     * 
+     * @param chatRef
+     * @return
+     */
+    public static Chat initChat(String chatRef) {
+        String[] data = chatRef.split("_");
+
+        String chatId = data[0];
+        String chatTitle = data[1];
+        String chatDesc = data[2];
+
+        String membersRaw = data[3];
+        System.out.println("DATA[3]:" + data[3]);
+
+        String[] memberRefList = membersRaw.split(Member.SEPARATOR);
+
+        List<Member> membersList = new ArrayList<>();
+
+        for (int i = 0; i < memberRefList.length; i++) {
+            System.out.println(memberRefList[i]);
+            Member fromRef = Member.initMember(memberRefList[i]);
+            membersList.add(fromRef);
+        }
+        return new Chat(chatId, chatTitle, chatDesc, membersList);
+    }
+
+    /**
+     * From CLIENT to SERVER
+     * The data in the Msg is store like:
+     * Emisor: Chat ID.
+     * Receptor: Chat Title
+     * Parameters: { members as a string }
+     * Body: Chat Description
+     * 
+     * @param chatMsg Msg object that contain all info of a Chat
+     * 
+     * @return new instance of Chat previously constructed in Server and sended as a
+     *         Msg to the cleint
+     */
+    public static Chat createChat(MSG chatMsg) {
+
+        String chatTitle = chatMsg.getEmisor();
+        String chatDesc = chatMsg.getReceptor();
+        String numChats = chatMsg.getBody();
+
+        List<Member> memberRefList = getMembersList(chatMsg.getParameters());
+
+        Member creator = memberRefList.get(0);
+
+        String chatId = generateChatCode(creator.getConnectionId(), numChats);
+
+        return new Chat(chatId, chatTitle, chatDesc, memberRefList);
+    }
+
+    /**
+     * From SERVER to CLIENT
+     * @param chatMsg is
+     * @return
+     */
+    public static Chat instanceChat(MSG chatMsg) {
+        String chatId = chatMsg.getEmisor();
+        String chatTitle = chatMsg.getReceptor();
+        String chatDesc = chatMsg.getBody();
+
+        List<Member> memberRefList = getMembersList(chatMsg.getParameters());
+
+        return new Chat(chatId, chatTitle, chatDesc, memberRefList);
+    }
+
+    /**
+     * 
+     * @param chatMSGInfo
+     * @return
+     */
+    public static String newChatReference(MSG chatMSGInfo) {
+
+        String chatId = generateChatCode(chatMSGInfo.getEmisor());
+        String chatTitle = chatMSGInfo.getReceptor();
+        String chatDesc = chatMSGInfo.getBody();
+        String[] membersRefList = chatMSGInfo.getParameters();
+
+        String membersAsString = "";
+
+        for (int i = 0; i < membersRefList.length; i++) {
+            String memberRef = membersRefList[i] + Member.SEPARATOR;
+            membersAsString += memberRef;
+        }
+
+        String toret = chatId + Chat.SEPARATOR + chatTitle + Chat.SEPARATOR + chatDesc + Chat.SEPARATOR
+                + membersAsString;
+
+        return toret;
+    }
 
     /* PROPs */
     private final List<Member> pMembers;
@@ -95,7 +225,7 @@ public class Chat {
                     toret += pMembers.get(i).getReference() + Member.SEPARATOR;
                 }
 
-            } 
+            }
         } catch (NullPointerException e) {
             return null;
         }
@@ -125,6 +255,23 @@ public class Chat {
         }
 
         return false;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public String getReference() {
+        String reference = null;
+
+        try {
+            reference = getChatId() + SEPARATOR + getTitle() + SEPARATOR + getDescription() + SEPARATOR
+                    + getMemberRefAsString();
+        } catch (NullPointerException e) {
+            System.err.println("Cannot get reference from a null chat");
+        }
+
+        return reference;
     }
 
     /* SETTERS */
@@ -170,8 +317,6 @@ public class Chat {
         pMembers = members;
     }
 
-
-
     /**
      * 
      * @return
@@ -188,20 +333,4 @@ public class Chat {
         return toret;
     }
 
-    /**
-     * 
-     * @return
-     */
-    public String getReference() {
-        String reference = null;
-
-        try {
-            reference = getChatId() + SEPARATOR + getTitle() + SEPARATOR + getDescription() + SEPARATOR
-                    + getMemberRefAsString();
-        } catch (NullPointerException e) {
-            System.err.println("Cannot get reference from a null chat");
-        }
-
-        return reference;
-    }
 }
