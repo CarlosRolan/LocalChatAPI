@@ -16,7 +16,7 @@ public class Chat {
 
     /* STATIC */
 
-    final static String SEPARATOR = "_";
+    public final static String SEPARATOR = "_";
 
     final static String CHAT_PREFIX = "3120";
 
@@ -43,34 +43,23 @@ public class Chat {
 
     /**
      * 
-     * @param chatId creatorID + numberOfChatsOfCreator
-     * @return CHAT_PREFIX + creatorID + numberOfChatsOfCreator
-     */
-    private static String generateChatCode(String chatId) {
-        return Chat.CHAT_PREFIX + chatId;
-    }
-
-    /**
-     * 
      * @param chatRef
      * @return
      */
     public static Chat initChat(String chatRef) {
-        String[] data = chatRef.split("_");
+        String[] data = chatRef.split(Chat.SEPARATOR);
 
         String chatId = data[0];
         String chatTitle = data[1];
         String chatDesc = data[2];
 
         String membersRaw = data[3];
-        System.out.println("DATA[3]:" + data[3]);
 
         String[] memberRefList = membersRaw.split(Member.SEPARATOR);
 
         List<Member> membersList = new ArrayList<>();
 
         for (int i = 0; i < memberRefList.length; i++) {
-            System.out.println(memberRefList[i]);
             Member fromRef = Member.initMember(memberRefList[i]);
             membersList.add(fromRef);
         }
@@ -79,11 +68,6 @@ public class Chat {
 
     /**
      * From CLIENT to SERVER
-     * The data in the Msg is store like:
-     * Emisor: Chat ID.
-     * Receptor: Chat Title
-     * Parameters: { members as a string }
-     * Body: Chat Description
      * 
      * @param chatMsg Msg object that contain all info of a Chat
      * 
@@ -120,30 +104,6 @@ public class Chat {
         return new Chat(chatId, chatTitle, chatDesc, memberRefList);
     }
 
-    /**
-     * 
-     * @param chatMSGInfo
-     * @return
-     */
-    public static String newChatReference(MSG chatMSGInfo) {
-
-        String chatId = generateChatCode(chatMSGInfo.getEmisor());
-        String chatTitle = chatMSGInfo.getReceptor();
-        String chatDesc = chatMSGInfo.getBody();
-        String[] membersRefList = chatMSGInfo.getParameters();
-
-        String membersAsString = "";
-
-        for (int i = 0; i < membersRefList.length; i++) {
-            String memberRef = membersRefList[i] + Member.SEPARATOR;
-            membersAsString += memberRef;
-        }
-
-        String toret = chatId + Chat.SEPARATOR + chatTitle + Chat.SEPARATOR + chatDesc + Chat.SEPARATOR
-                + membersAsString;
-
-        return toret;
-    }
 
     /* PROPs */
     private final List<Member> pMembers;
@@ -164,6 +124,10 @@ public class Chat {
         }
 
         return null;
+    }
+
+    public Member getMember(int index) {
+        return pMembers.get(index);
     }
 
     public String getChatId() {

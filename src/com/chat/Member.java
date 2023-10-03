@@ -11,7 +11,8 @@ import com.controller.Connection;
  */
 public class Member {
 
-    protected static enum Permission {
+    /* ENUM */
+    static enum Permission {
         ADMIN("AD"),
         REGULAR("REG"),
         UNDEFINED("undefined");
@@ -40,21 +41,52 @@ public class Member {
     }
 
     /* STATIC */
-    final static String SEPARATOR = "-";
+    public final static String SEPARATOR = "-";
+
+    public static Member initMember(String memberRef) {
+     String memberData[] = memberRef.split(Member.SEPARATOR);
+
+        String memberId = memberData[0];
+        String memberNick = memberData[1];
+        Permission rights = Permission.assing(memberData[2]);
+
+        return new Member(memberId, memberNick, rights);
+    }
+
+    public static Member initMember(String memberRef, boolean isAdmin) {
+        if (isAdmin) {
+            return initAdmin(memberRef);
+        } 
+
+        return initRegular(memberRef);
+    }
 
     /**
      * 
      * @param memberRef comes with the follow strucute
-     *                  ClientID_ClientNick_ClientPermission
+     *                  ClientID_ClientNick
      */
-    public static Member initMember(String memberRef) {
+    private static Member initRegular(String memberRef) {
         String memberData[] = memberRef.split(Member.SEPARATOR);
 
         String memberId = memberData[0];
         String memberNick = memberData[1];
-        Member.Permission rights = Member.Permission.valueOf(memberData[2]);
 
-        return new Member(memberId, memberNick, rights);
+        return new Member(memberId, memberNick, Permission.REGULAR);
+    }
+
+        /**
+     * 
+     * @param memberRef comes with the follow strucute
+     *                  ClientID_ClientNick
+     */
+    private static Member initAdmin(String memberRef) {
+        String memberData[] = memberRef.split(Member.SEPARATOR);
+
+        String memberId = memberData[0];
+        String memberNick = memberData[1];
+
+        return new Member(memberId, memberNick, Permission.ADMIN);
     }
 
     /**
@@ -77,6 +109,11 @@ public class Member {
         return new Member(conId, name, Permission.REGULAR);
     }
 
+    public static Member newMember(Connection con, String rights) {
+        Member.Permission permissions = Permission.assing(rights);
+        return new Member(con.getConId(), con.getNick(), permissions);
+    }
+
     /**
      * 
      * @param connection
@@ -86,29 +123,10 @@ public class Member {
         return new Member(connection.getConId(), connection.getNick(), Permission.REGULAR);
     }
 
-    /**
-     * 
-     * @param connection
-     * @return
-     */
-    public static Member newAdmin(Connection connection) {
-        return new Member(connection.getConId(), connection.getNick(), Permission.ADMIN);
-    }
-
-    /**
-     * 
-     * @param con
-     * @param rights
-     * @return
-     */
-    public static Member newMember(Connection con, String rights) {
-        return new Member(con.getConId(), con.getNick(), Permission.assing(rights));
-    }
-
     /* PROPs */
-    private final int connectionRef;
+    private final int mConnectionRef;
     private final Permission mRights;
-    private String mName;
+    private String mNick;
 
     /* GETTERS */
     public boolean isAdmin() {
@@ -120,26 +138,26 @@ public class Member {
     }
 
     public String getConnectionId() {
-        return String.valueOf(connectionRef);
+        return String.valueOf(mConnectionRef);
     }
 
-    public String getName() {
-        return mName;
+    public String getNick() {
+        return mNick;
     }
 
     public String getReference() {
-        return connectionRef + SEPARATOR + mName + SEPARATOR + mRights;
+        return mConnectionRef + SEPARATOR + mNick + SEPARATOR + mRights;
     }
 
     /* CONSTRUCTORs */
     Member(String conId, String name, final Permission permission) {
-        connectionRef = Integer.parseInt(conId);
+        mConnectionRef = Integer.parseInt(conId);
         mRights = permission;
-        mName = name;
+        mNick = name;
     }
 
     public String toXML() {
-        return "<member connectionRef=" + connectionRef + " name='" + mName + "'' rights='" + mRights.name() + "'/>";
+        return "<member connectionRef=" + mConnectionRef + " name='" + mNick + "'' rights='" + mRights.name() + "'/>";
     }
 
 }

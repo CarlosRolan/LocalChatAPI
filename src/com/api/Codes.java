@@ -46,6 +46,7 @@ public interface Codes {
     final String REQ_EXIT_SINGLE = "EXIT_SINGLE";
 
     final String REQ_CREATE_CHAT = "CREATE_CHAT";
+    final String REQ_ADDED_TO_CHAT = "ADDED_TO_CHAT";
     final String REQ_INIT_CHAT = "INIT_CHAT";
     final String REQ_INIT_CON = "INIT_CON";
     final String REQ_ADD_MEMBER = "ADD_MEMBER";
