@@ -72,8 +72,8 @@ public interface Codes {
     final String MSG_TO_CHAT = "TO_CHAT";
 
     /* Firt check */
-    final String MSG_SENT_TO_SINGLE = "SENT_TO_SINGLE";
-    final String MSG_SENT_TO_CHAT = "SENT_TO_CHAT";
+    final String MSG_FROM_SINGLE = "FROM_SINGLE";
+    final String MSG_FROM_CHAT = "FROM_CHAT";
 
     /* Double check */
     final String MSG_RECIEVED_FROM_CHAT = "RECIEVED_FROM_CHAT";

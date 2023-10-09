@@ -55,7 +55,7 @@ public class Chat {
 
         String membersRaw = data[3];
 
-        String[] memberRefList = membersRaw.split(Member.SEPARATOR);
+        String[] memberRefList = membersRaw.split(" ");
 
         List<Member> membersList = new ArrayList<>();
 
@@ -91,6 +91,7 @@ public class Chat {
 
     /**
      * From SERVER to CLIENT
+     * 
      * @param chatMsg is
      * @return
      */
@@ -103,7 +104,6 @@ public class Chat {
 
         return new Chat(chatId, chatTitle, chatDesc, memberRefList);
     }
-
 
     /* PROPs */
     private final List<Member> pMembers;
@@ -183,10 +183,10 @@ public class Chat {
 
         try {
             for (int i = 0; i < pMembers.size(); i++) {
-                if (i == pMembers.size()) {
+                if (i == pMembers.size() -1) {
                     toret += pMembers.get(i).getReference();
                 } else {
-                    toret += pMembers.get(i).getReference() + Member.SEPARATOR;
+                    toret += pMembers.get(i).getReference() + " ";
                 }
 
             }
@@ -213,6 +213,7 @@ public class Chat {
      */
     public boolean isMemberInChat(String conId) {
         for (Member member : pMembers) {
+            System.out.println("ID" + conId + " =? " + "REF" + member.getReference());
             if (member.getConnectionId().equals(conId)) {
                 return true;
             }

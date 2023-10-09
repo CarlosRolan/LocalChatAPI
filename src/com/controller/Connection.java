@@ -233,7 +233,6 @@ public abstract class Connection extends Thread implements Codes {
 
 	/* PUBLIC METHODS */
 
-
 	public void reconnect() {
 		String dots = "";
 		while (true) {
@@ -260,12 +259,6 @@ public abstract class Connection extends Thread implements Codes {
 	}
 
 	public void write(Object obj) throws SocketException, IOException {
-		if (obj instanceof MSG) {
-			System.out.println("MSG_OUT==>" + obj.toString());
-		}
-		if (obj instanceof PKG) {
-			System.out.println("PCKG_OUT==>" + obj.toString());
-		}
 		mOos.writeObject(obj);
 	}
 
@@ -320,13 +313,11 @@ public abstract class Connection extends Thread implements Codes {
 
 		if (o != null) {
 			if (o instanceof MSG) {
-				System.out.println("<==MSG_IN_" + o.toString());
 				MSG msg = (MSG) o;
 				listenMsg(msg);
 			}
 
 			if (o instanceof PKG) {
-				System.out.println("<==PKG_IN_" + o.toString());
 				PKG pkg = (PKG) o;
 				listenPckg(pkg);
 			}
@@ -341,6 +332,6 @@ public abstract class Connection extends Thread implements Codes {
 	}
 
 	public String getReference() {
-		return mId + "_" + mNick;
+		return mId + "-" + mNick;
 	}
 }

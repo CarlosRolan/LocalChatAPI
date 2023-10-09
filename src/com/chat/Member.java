@@ -44,7 +44,7 @@ public class Member {
     public final static String SEPARATOR = "-";
 
     public static Member initMember(String memberRef) {
-     String memberData[] = memberRef.split(Member.SEPARATOR);
+        String memberData[] = memberRef.split(Member.SEPARATOR);
 
         String memberId = memberData[0];
         String memberNick = memberData[1];
@@ -56,7 +56,7 @@ public class Member {
     public static Member initMember(String memberRef, boolean isAdmin) {
         if (isAdmin) {
             return initAdmin(memberRef);
-        } 
+        }
 
         return initRegular(memberRef);
     }
@@ -75,7 +75,7 @@ public class Member {
         return new Member(memberId, memberNick, Permission.REGULAR);
     }
 
-        /**
+    /**
      * 
      * @param memberRef comes with the follow strucute
      *                  ClientID_ClientNick
