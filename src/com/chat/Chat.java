@@ -17,6 +17,7 @@ public class Chat {
     /* STATIC */
 
     public final static String SEPARATOR = "_";
+    public final static String CHAT_MEMBER_SEPARATOR = " ";
 
     final static String CHAT_PREFIX = "3120";
 
@@ -55,7 +56,7 @@ public class Chat {
 
         String membersRaw = data[3];
 
-        String[] memberRefList = membersRaw.split(" ");
+        String[] memberRefList = membersRaw.split(CHAT_MEMBER_SEPARATOR);
 
         List<Member> membersList = new ArrayList<>();
 
@@ -186,7 +187,7 @@ public class Chat {
                 if (i == pMembers.size() -1) {
                     toret += pMembers.get(i).getReference();
                 } else {
-                    toret += pMembers.get(i).getReference() + " ";
+                    toret += pMembers.get(i).getReference() + CHAT_MEMBER_SEPARATOR;
                 }
 
             }
