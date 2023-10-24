@@ -112,6 +112,11 @@ public class Chat {
     private String pTitle;
     private String pDesc;
 
+    public boolean isCreator(Member memberToCheck) {
+        String creatorId = getChatId().substring(3);
+        return (creatorId.startsWith(memberToCheck.getConnectionId()));
+    }
+
     /* GETTERS */
     /**
      * 
@@ -123,6 +128,8 @@ public class Chat {
             if (conId.equals(member.getConnectionId()))
                 return member;
         }
+
+        System.err.println("There is no member with id = " + conId);
 
         return null;
     }
@@ -137,6 +144,15 @@ public class Chat {
 
     public String getTitle() {
         return pTitle;
+    }
+
+    public void deleteMember(Member memberToDel) {
+        pMembers.remove(memberToDel);
+    }
+
+    public void deleteMember(String memberId) {
+        Member toDelete = getMember(memberId);
+        deleteMember(toDelete);
     }
 
     /**
@@ -184,7 +200,7 @@ public class Chat {
 
         try {
             for (int i = 0; i < pMembers.size(); i++) {
-                if (i == pMembers.size() -1) {
+                if (i == pMembers.size() - 1) {
                     toret += pMembers.get(i).getReference();
                 } else {
                     toret += pMembers.get(i).getReference() + CHAT_MEMBER_SEPARATOR;
@@ -200,27 +216,39 @@ public class Chat {
 
     /**
      * 
-     * @param check
+     * @param memberToCheck
      * @return
      */
-    public boolean isMemberInChat(Member check) {
-        return pMembers.contains(check);
+    public boolean isMemberInChat(Member memberToCheck) {
+        return pMembers.contains(memberToCheck);
     }
 
     /**
      * 
-     * @param conId
+     * @param memberId
      * @return
      */
-    public boolean isMemberInChat(String conId) {
-        for (Member member : pMembers) {
-            System.out.println("ID" + conId + " =? " + "REF" + member.getReference());
-            if (member.getConnectionId().equals(conId)) {
+    public boolean isMemberInChat(String memberId) {
+        for (Member iMember : pMembers) {
+            System.out.println("ID" + memberId + " =? " + "REF" + iMember.getReference());
+            if (iMember.getConnectionId().equals(memberId)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * @param memberId
+     * @return true if member is Admin
+     */
+
+    public boolean isMemberAdmin(String memberId) {
+
+        Member memberToCheck = getMember(memberId);
+
+        return memberToCheck.isAdmin();
     }
 
     /**

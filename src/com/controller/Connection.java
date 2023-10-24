@@ -20,19 +20,39 @@ import com.data.PKG;
  * @author Carlos Rolán Díaz
  * @version beta
  */
-public abstract class Connection extends Thread implements Codes {
+public class Connection extends Thread implements Codes {
+
+	public static final String SEPARATOR = "--";
 
 	private long mId;
 	private Socket mSocket = null;
 	private String mNick = "Nameless";
 	private ObjectInputStream mOis = null;
 	private ObjectOutputStream mOos = null;
+	private int mChatsNum = 0;
 
 	private IMSGHandler mMSGHandler;
 	private IPKGHandler mPKGHandler;
 
 	private String mHostName = "localhost";
 	private int mPort = 8080;
+
+	public void reconnect(Socket socket) {
+		try {
+			initConnection();
+		} catch (IOException e) {
+			System.err.println("Could not reconnect");
+			e.printStackTrace();
+		}
+	}
+
+	public void oneMoreChat() {
+		mChatsNum++;
+	}
+
+	public void oneLessChat() {
+		mChatsNum--;
+	}
 
 	/* GETTERS */
 	/**
@@ -41,6 +61,27 @@ public abstract class Connection extends Thread implements Codes {
 	 */
 	public String getConId() {
 		return String.valueOf(mId);
+	}
+
+	/**
+	 * @return the Socket
+	 */
+	public Socket getSocket() {
+		return mSocket;
+	}
+
+	/**
+	 * @return the Ois
+	 */
+	public ObjectInputStream getOis() {
+		return mOis;
+	}
+
+	/**
+	 * @return the Oos
+	 */
+	public ObjectOutputStream getOos() {
+		return mOos;
 	}
 
 	/**

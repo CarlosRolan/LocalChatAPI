@@ -1,5 +1,12 @@
 package com.api;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import com.chat.Chat;
+import com.controller.Connection;
+import com.data.MSG;
+
 /**
  * Description:
  * Program Name: LocalChatApi
@@ -52,6 +59,7 @@ public interface Codes {
     final String REQ_ADD_MEMBER = "ADD_MEMBER";
     final String REQ_DELETE_MEMBER = "DELETE_MEMBER";
     final String REQ_CHANGE_MEMBER_RIGHTS = "CHANGE_MEMBER_RIGHTS";
+    final String REQ_UPDATE_CHAT = "UPDATE_CHAT";
 
     final String REQ_SELECT_USER = "SELCT_USER";
 
@@ -86,4 +94,52 @@ public interface Codes {
 
     final String WARN_UNREGISTERED_PKG_COLLECTION_ACTION = "PKG[COLLECTION] UNHANDLED";
     final String WARN_UNREGISTERED_PKG_MIXED_ACTION = "PKG[MIXED] UNHANDLED";
+
+    /**
+     * 
+     * @param con the connection to send the info
+     * @return
+     */
+    default MSG sendConInstance(Connection con) {
+        MSG respond = null;
+
+        if (con != null) {
+            respond = new MSG(MSG.Type.REQUEST);
+            respond.setAction(REQ_INIT_CON);
+            respond.setEmisor(con.getConId());
+            respond.setReceptor(con.getNick());
+            respond.setParameter(0, con.getReference());
+            // respond.setParameters(con.getChatsRef());
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            respond.setBody(dtf.format(now));
+
+        } else {
+            respond = new MSG(MSG.Type.ERROR);
+            respond.setAction(ERROR_CLIENT_NOT_FOUND);
+        }
+        return respond;
+    }
+
+    default MSG sendChatInstance(Chat chat) {
+        MSG respond = null;
+
+        if (chat != null) {
+            respond = new MSG(MSG.Type.REQUEST);
+            respond.setAction(REQ_INIT_CHAT);
+            respond.setEmisor(chat.getChatId());
+            respond.setReceptor(chat.getTitle());
+            respond.setBody(chat.getDescription());
+            respond.setParameters(chat.getMembersRef());
+
+        } else {
+            respond = new MSG(MSG.Type.ERROR);
+            respond.setAction(ERROR_CHAT_NOT_FOUND);
+        }
+
+        return respond;
+    }
+
+
+
 }
