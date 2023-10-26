@@ -29,7 +29,6 @@ public class Connection extends Thread implements Codes {
 	private String mNick = "Nameless";
 	private ObjectInputStream mOis = null;
 	private ObjectOutputStream mOos = null;
-	private int mChatsNum = 0;
 
 	private IMSGHandler mMSGHandler;
 	private IPKGHandler mPKGHandler;
@@ -44,14 +43,6 @@ public class Connection extends Thread implements Codes {
 			System.err.println("Could not reconnect");
 			e.printStackTrace();
 		}
-	}
-
-	public void oneMoreChat() {
-		mChatsNum++;
-	}
-
-	public void oneLessChat() {
-		mChatsNum--;
 	}
 
 	/* GETTERS */

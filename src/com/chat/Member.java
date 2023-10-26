@@ -43,7 +43,13 @@ public class Member {
     /* STATIC */
     public final static String SEPARATOR = "-";
 
-    public static Member initMember(String memberRef) {
+    /**
+     * 
+     * @param memberRefcomes with the follow strucute
+     *                  ClientID_ClientNick_PERMISSION
+     * @return
+     */
+    public static Member init(String memberRef) {
         String memberData[] = memberRef.split(Member.SEPARATOR);
 
         String memberId = memberData[0];
@@ -53,7 +59,13 @@ public class Member {
         return new Member(memberId, memberNick, rights);
     }
 
-    public static Member initMember(String memberRef, boolean isAdmin) {
+    /**
+     * 
+     * @param memberRef
+     * @param isAdmin
+     * @return
+     */
+    public static Member init(String memberRef, boolean isAdmin) {
         if (isAdmin) {
             return initAdmin(memberRef);
         }
@@ -125,7 +137,7 @@ public class Member {
 
     /* PROPs */
     private final int mConnectionRef;
-    private final Permission mRights;
+    private Permission mRights;
     private String mNick;
 
     /* GETTERS */
@@ -147,6 +159,15 @@ public class Member {
 
     public String getReference() {
         return mConnectionRef + SEPARATOR + mNick + SEPARATOR + mRights;
+    }
+
+    /* SETTERs */
+    public void makeAdmin() {
+        mRights = Permission.ADMIN;
+    }
+
+    public void makeRegular() {
+        mRights = Permission.REGULAR;
     }
 
     /* CONSTRUCTORs */

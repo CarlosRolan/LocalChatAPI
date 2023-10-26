@@ -21,11 +21,11 @@ public class Chat {
 
     final static String CHAT_PREFIX = "3120";
 
-    public static List<Member> getMembersList(String[] memberRefs) {
+    public static List<Member> converToMemberList(String[] memberRefs) {
         List<Member> toret = new ArrayList<>();
 
         for (int i = 0; i < memberRefs.length; i++) {
-            Member member = Member.initMember(memberRefs[i]);
+            Member member = Member.init(memberRefs[i]);
             toret.add(member);
         }
 
@@ -47,7 +47,7 @@ public class Chat {
      * @param chatRef
      * @return
      */
-    public static Chat initChat(String chatRef) {
+    public static Chat init(String chatRef) {
         String[] data = chatRef.split(Chat.SEPARATOR);
 
         String chatId = data[0];
@@ -61,7 +61,7 @@ public class Chat {
         List<Member> membersList = new ArrayList<>();
 
         for (int i = 0; i < memberRefList.length; i++) {
-            Member fromRef = Member.initMember(memberRefList[i]);
+            Member fromRef = Member.init(memberRefList[i]);
             membersList.add(fromRef);
         }
         return new Chat(chatId, chatTitle, chatDesc, membersList);
@@ -81,7 +81,7 @@ public class Chat {
         String chatDesc = chatMsg.getReceptor();
         String numChats = chatMsg.getBody();
 
-        List<Member> memberRefList = getMembersList(chatMsg.getParameters());
+        List<Member> memberRefList = converToMemberList(chatMsg.getParameters());
 
         Member creator = memberRefList.get(0);
 
@@ -101,16 +101,16 @@ public class Chat {
         String chatTitle = chatMsg.getReceptor();
         String chatDesc = chatMsg.getBody();
 
-        List<Member> memberRefList = getMembersList(chatMsg.getParameters());
+        List<Member> memberRefList = converToMemberList(chatMsg.getParameters());
 
         return new Chat(chatId, chatTitle, chatDesc, memberRefList);
     }
 
     /* PROPs */
-    private final List<Member> pMembers;
-    private final String pId;
-    private String pTitle;
-    private String pDesc;
+    private final List<Member> mMembers;
+    private final String mId;
+    private String mTitle;
+    private String mDesc;
 
     public boolean isCreator(Member memberToCheck) {
         String creatorId = getChatId().substring(3);
@@ -118,13 +118,26 @@ public class Chat {
     }
 
     /* GETTERS */
+
+    public Member getMember(Member member) {
+        if (mMembers.contains(member)) {
+            return member;
+        }
+        return null;
+    }
+
+    public Member getMemberFromRef(String memberRef) {
+        Member member = Member.init(memberRef);
+        return getMember(member);
+    }
+
     /**
      * 
      * @param conId
      * @return
      */
-    public Member getMember(String conId) {
-        for (Member member : pMembers) {
+    public Member getMemberFromId(String conId) {
+        for (Member member : mMembers) {
             if (conId.equals(member.getConnectionId()))
                 return member;
         }
@@ -134,25 +147,21 @@ public class Chat {
         return null;
     }
 
+    /**
+     * 
+     * @param index
+     * @return Member of the chat with the index given
+     */
     public Member getMember(int index) {
-        return pMembers.get(index);
+        return mMembers.get(index);
     }
 
     public String getChatId() {
-        return pId;
+        return mId;
     }
 
     public String getTitle() {
-        return pTitle;
-    }
-
-    public void deleteMember(Member memberToDel) {
-        pMembers.remove(memberToDel);
-    }
-
-    public void deleteMember(String memberId) {
-        Member toDelete = getMember(memberId);
-        deleteMember(toDelete);
+        return mTitle;
     }
 
     /**
@@ -160,7 +169,7 @@ public class Chat {
      * @return
      */
     public String getDescription() {
-        return pDesc;
+        return mDesc;
     }
 
     /**
@@ -168,7 +177,7 @@ public class Chat {
      * @return
      */
     public List<Member> getMembers() {
-        return pMembers;
+        return mMembers;
     }
 
     /**
@@ -180,9 +189,9 @@ public class Chat {
         String[] toret;
 
         try {
-            toret = new String[pMembers.size()];
+            toret = new String[mMembers.size()];
             for (int i = 0; i < toret.length; i++) {
-                toret[i] = pMembers.get(i).getReference();
+                toret[i] = mMembers.get(i).getReference();
             }
         } catch (NullPointerException e) {
             return null;
@@ -199,11 +208,11 @@ public class Chat {
         String toret = "";
 
         try {
-            for (int i = 0; i < pMembers.size(); i++) {
-                if (i == pMembers.size() - 1) {
-                    toret += pMembers.get(i).getReference();
+            for (int i = 0; i < mMembers.size(); i++) {
+                if (i == mMembers.size() - 1) {
+                    toret += mMembers.get(i).getReference();
                 } else {
-                    toret += pMembers.get(i).getReference() + CHAT_MEMBER_SEPARATOR;
+                    toret += mMembers.get(i).getReference() + CHAT_MEMBER_SEPARATOR;
                 }
 
             }
@@ -220,7 +229,7 @@ public class Chat {
      * @return
      */
     public boolean isMemberInChat(Member memberToCheck) {
-        return pMembers.contains(memberToCheck);
+        return mMembers.contains(memberToCheck);
     }
 
     /**
@@ -229,7 +238,7 @@ public class Chat {
      * @return
      */
     public boolean isMemberInChat(String memberId) {
-        for (Member iMember : pMembers) {
+        for (Member iMember : mMembers) {
             System.out.println("ID" + memberId + " =? " + "REF" + iMember.getReference());
             if (iMember.getConnectionId().equals(memberId)) {
                 return true;
@@ -246,7 +255,7 @@ public class Chat {
 
     public boolean isMemberAdmin(String memberId) {
 
-        Member memberToCheck = getMember(memberId);
+        Member memberToCheck = getMemberFromId(memberId);
 
         return memberToCheck.isAdmin();
     }
@@ -274,7 +283,15 @@ public class Chat {
      * @param newTitle
      */
     public void setTitle(String newTitle) {
-        pTitle = newTitle;
+        mTitle = newTitle;
+    }
+
+    /**
+     * 
+     * @param newDescription
+     */
+    public void setDescription(String newDescription) {
+        mDesc = newDescription;
     }
 
     /* UTILs */
@@ -283,17 +300,26 @@ public class Chat {
      * @param newMember
      */
     public void addMember(Member newMember) {
-        if (pMembers != null) {
-            pMembers.add(newMember);
+        if (mMembers != null) {
+            mMembers.add(newMember);
         }
     }
 
     /**
      * 
-     * @param newDescription
+     * @param member
      */
-    public void setDescription(String newDescription) {
-        pDesc = newDescription;
+    public void deleteMember(Member member) {
+        mMembers.remove(member);
+    }
+
+    /**
+     * 
+     * @param memberId
+     */
+    public void deleteMember(String memberId) {
+        Member toDelete = getMemberFromId(memberId);
+        deleteMember(toDelete);
     }
 
     /* CONSTRUCTOR */
@@ -305,10 +331,10 @@ public class Chat {
      * @param members
      */
     Chat(String chatId, String title, String description, List<Member> members) {
-        pId = chatId;
-        pTitle = title;
-        pDesc = description;
-        pMembers = members;
+        mId = chatId;
+        mTitle = title;
+        mDesc = description;
+        mMembers = members;
     }
 
     /**
@@ -316,9 +342,9 @@ public class Chat {
      * @return
      */
     public String toXML() {
-        String toret = "<chat id=" + pId + " title='" + pTitle + "'' desc='" + pDesc + "''>";
+        String toret = "<chat id=" + mId + " title='" + mTitle + "'' desc='" + mDesc + "''>";
 
-        for (Member member : pMembers) {
+        for (Member member : mMembers) {
             toret += "\n\t" + member.toXML();
         }
 

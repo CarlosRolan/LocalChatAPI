@@ -100,7 +100,7 @@ public interface Codes {
      * @param con the connection to send the info
      * @return
      */
-    default MSG sendConInstance(Connection con) {
+    public default MSG sendConInstance(Connection con) {
         MSG respond = null;
 
         if (con != null) {
@@ -121,7 +121,7 @@ public interface Codes {
         return respond;
     }
 
-    default MSG sendChatInstance(Chat chat) {
+    public default MSG sendChatInstance(Chat chat) {
         MSG respond = null;
 
         if (chat != null) {
@@ -139,7 +139,5 @@ public interface Codes {
 
         return respond;
     }
-
-
 
 }
