@@ -20,7 +20,7 @@ import com.data.PKG;
  * @author Carlos Rolán Díaz
  * @version beta
  */
-public class Connection extends Thread implements Codes {
+public abstract class Connection extends Thread implements Codes {
 
 	public static final String SEPARATOR = "--";
 
@@ -101,6 +101,14 @@ public class Connection extends Thread implements Codes {
 
 	public void setNick(String nick) {
 		mNick = nick;
+	}
+
+	public void setIMSGHANDLER(IMSGHandler listener) {
+		mMSGHandler = listener;
+	}
+
+	public void setPKGHandler(IPKGHandler listener) {
+		mPKGHandler = listener;
 	}
 
 	/* CONSTRUCTORS */
@@ -358,7 +366,6 @@ public class Connection extends Thread implements Codes {
 	}
 
 	/* PARSERS */
-
 	public String toXML() {
 		return "<connection id=" + mId + " nick=" + mNick + ">";
 	}

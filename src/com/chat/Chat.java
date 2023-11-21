@@ -75,17 +75,15 @@ public class Chat {
      * @return new instance of Chat previously constructed in Server and sended as a
      *         Msg to the cleint
      */
-    public static Chat createChat(MSG chatMsg) {
+    public static Chat createChat(String chatTitle, String chatDesc, String[] membersRef, int numChats) {
 
-        String chatTitle = chatMsg.getEmisor();
-        String chatDesc = chatMsg.getReceptor();
-        String numChats = chatMsg.getBody();
+        String numChatOfCreator = String.valueOf(numChats);
 
-        List<Member> memberRefList = converToMemberList(chatMsg.getParameters());
+        List<Member> memberRefList = converToMemberList(membersRef);
 
         Member creator = memberRefList.get(0);
 
-        String chatId = generateChatCode(creator.getConnectionId(), numChats);
+        String chatId = generateChatCode(creator.getConnectionId(), numChatOfCreator);
 
         return new Chat(chatId, chatTitle, chatDesc, memberRefList);
     }
@@ -97,6 +95,14 @@ public class Chat {
      * @return
      */
     public static Chat instanceChat(MSG chatMsg) {
+
+        // MSG chatInfo = new MSG(MSG.Type.REQUEST);
+        // chatInfo.setAction(ACTION);
+        // chatInfo.setEmisor(chat.getChatId());
+        // chatInfo.setReceptor(chat.getTitle());
+        // chatInfo.setBody(chat.getDescription());
+        // chatInfo.setParameters(chat.getMembersRef());
+
         String chatId = chatMsg.getEmisor();
         String chatTitle = chatMsg.getReceptor();
         String chatDesc = chatMsg.getBody();
@@ -108,7 +114,7 @@ public class Chat {
 
     /* PROPs */
     private final List<Member> mMembers;
-    private final String mId;
+    private String mId;
     private String mTitle;
     private String mDesc;
 
@@ -197,6 +203,14 @@ public class Chat {
             return null;
         }
 
+        return toret;
+    }
+
+    public List<String> getMembersRefList() {
+        List<String> toret = new ArrayList<>();
+        for (Member member : mMembers) {
+            toret.add(member.getReference());
+        }
         return toret;
     }
 
@@ -322,6 +336,13 @@ public class Chat {
         deleteMember(toDelete);
     }
 
+    public void updateMember(Member updated) {
+        String id = updated.getConnectionId();
+        Member old = getMemberFromId(id);
+        int index = getMembers().indexOf(old);
+        getMembers().set(index, updated);
+    }
+
     /* CONSTRUCTOR */
     /**
      * 
@@ -335,6 +356,23 @@ public class Chat {
         mTitle = title;
         mDesc = description;
         mMembers = members;
+    }
+
+    /**
+     * Generetas a chat with only the owner as a member
+     * 
+     * @param ownerId
+     * @param ownerNick
+     * @param chatsNum
+     * @param title
+     * @param description
+     */
+    public Chat(String ownerId, String ownerNick, String chatsNum, String title, String description) {
+        mTitle = title;
+        mDesc = description;
+        Member owner = Member.newCreator(ownerId, ownerNick);
+        mMembers = new ArrayList<>();
+        mMembers.add(owner);
     }
 
     /**

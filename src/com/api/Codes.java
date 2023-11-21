@@ -100,42 +100,109 @@ public interface Codes {
      * @param con the connection to send the info
      * @return
      */
-    public default MSG sendConInstance(Connection con) {
-        MSG respond = null;
+    public default MSG sendConInstance(Connection con, final String ACTION) {
+        MSG conInfo = new MSG(MSG.Type.REQUEST);
+        conInfo.setAction(ACTION);
+        conInfo.setEmisor(con.getConId());
+        conInfo.setReceptor(con.getNick());
+        conInfo.setParameter(0, con.getReference());
+        // respond.setParameters(con.getChatsRef());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        conInfo.setBody(dtf.format(now));
 
-        if (con != null) {
-            respond = new MSG(MSG.Type.REQUEST);
-            respond.setAction(REQ_INIT_CON);
-            respond.setEmisor(con.getConId());
-            respond.setReceptor(con.getNick());
-            respond.setParameter(0, con.getReference());
-            // respond.setParameters(con.getChatsRef());
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            respond.setBody(dtf.format(now));
+        return conInfo;
+    }
 
-        } else {
-            respond = new MSG(MSG.Type.ERROR);
-            respond.setAction(ERROR_CLIENT_NOT_FOUND);
-        }
+    public default MSG sendChatInstance(Chat chat, final String ACTION) {
+        MSG chatInfo = new MSG(MSG.Type.REQUEST);
+        chatInfo.setAction(ACTION);
+        chatInfo.setEmisor(chat.getChatId());
+        chatInfo.setReceptor(chat.getTitle());
+        chatInfo.setBody(chat.getDescription());
+        chatInfo.setParameters(chat.getMembersRef());
+
+        return chatInfo;
+    }
+
+    /* COMUNICATION */
+    /**
+     * 
+     * @return 
+     */
+    public default MSG recievedMsgFromChat() {
+        MSG msgSent = new MSG(MSG.Type.MESSAGE);
+
+        msgSent.setAction(MSG_FROM_CHAT);
+
+        return msgSent;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public default MSG recievedMsgFromSingle() {
+        MSG msgSent = new MSG(MSG.Type.MESSAGE);
+
+        msgSent.setAction(MSG_FROM_SINGLE);
+
+        return msgSent;
+    }
+
+    /**
+     * 
+     * @param chatId
+     * @param emisorId
+     * @param line
+     * @return
+     */
+    public default MSG sendMsgToChat(String chatId, String emisorId, String line) {
+
+        MSG msgOut = new MSG(MSG.Type.MESSAGE);
+
+        msgOut.setAction(MSG_TO_CHAT);
+        msgOut.setEmisor(emisorId);
+        msgOut.setReceptor(chatId);
+        msgOut.setBody(line);
+
+        return msgOut;
+    }
+
+    /**
+     * 
+     * @param emisorId
+     * @param emisorNick
+     * @param receptorId
+     * @param receptorNick
+     * @param msgTxt
+     * @return
+     */
+    public default MSG sendMsgToSingle(String emisorId, String emisorNick, String receptorId, String receptorNick,
+            String msgTxt) {
+        MSG msgOut = new MSG(MSG.Type.MESSAGE);
+
+        msgOut.setAction(MSG_TO_SINGLE);
+        msgOut.setEmisor(emisorId);
+        msgOut.setParameter(0, emisorNick);
+        msgOut.setParameter(1, receptorNick);
+        msgOut.setReceptor(receptorId);
+        msgOut.setBody(msgTxt);
+
+        return msgOut;
+    }
+
+    /* ERRORs */
+    public default MSG conNotFound() {
+        MSG respond = new MSG(MSG.Type.ERROR);
+        respond.setAction(ERROR_CLIENT_NOT_FOUND);
+
         return respond;
     }
 
-    public default MSG sendChatInstance(Chat chat) {
-        MSG respond = null;
-
-        if (chat != null) {
-            respond = new MSG(MSG.Type.REQUEST);
-            respond.setAction(REQ_INIT_CHAT);
-            respond.setEmisor(chat.getChatId());
-            respond.setReceptor(chat.getTitle());
-            respond.setBody(chat.getDescription());
-            respond.setParameters(chat.getMembersRef());
-
-        } else {
-            respond = new MSG(MSG.Type.ERROR);
-            respond.setAction(ERROR_CHAT_NOT_FOUND);
-        }
+    public default MSG chatNotFound() {
+        MSG respond = new MSG(MSG.Type.ERROR);
+        respond.setAction(ERROR_CHAT_NOT_FOUND);
 
         return respond;
     }
