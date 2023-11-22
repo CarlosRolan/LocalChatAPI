@@ -46,15 +46,15 @@ public class Member {
     /**
      * 
      * @param memberRefcomes with the follow strucute
-     *                  ClientID_ClientNick_PERMISSION
+     *                       ClientID_ClientNick_PERMISSION
      * @return
      */
     public static Member init(String memberRef) {
-        String memberData[] = memberRef.split(Member.SEPARATOR);
+        final String memberData[] = memberRef.split(Member.SEPARATOR);
 
-        String memberId = memberData[0];
-        String memberNick = memberData[1];
-        Permission rights = Permission.assing(memberData[2]);
+        final String memberId = memberData[0];
+        final String memberNick = memberData[1];
+        final Permission rights = Permission.assing(memberData[2]);
 
         return new Member(memberId, memberNick, rights);
     }
@@ -69,7 +69,6 @@ public class Member {
         if (isAdmin) {
             return initAdmin(memberRef);
         }
-
         return initRegular(memberRef);
     }
 
@@ -79,10 +78,10 @@ public class Member {
      *                  ClientID_ClientNick
      */
     private static Member initRegular(String memberRef) {
-        String memberData[] = memberRef.split(Member.SEPARATOR);
+        final String memberData[] = memberRef.split(Member.SEPARATOR);
 
-        String memberId = memberData[0];
-        String memberNick = memberData[1];
+        final String memberId = memberData[0];
+        final String memberNick = memberData[1];
 
         return new Member(memberId, memberNick, Permission.REGULAR);
     }
@@ -93,10 +92,10 @@ public class Member {
      *                  ClientID_ClientNick
      */
     private static Member initAdmin(String memberRef) {
-        String memberData[] = memberRef.split(Member.SEPARATOR);
+        final String memberData[] = memberRef.split(Member.SEPARATOR);
 
-        String memberId = memberData[0];
-        String memberNick = memberData[1];
+        final String memberId = memberData[0];
+        final String memberNick = memberData[1];
 
         return new Member(memberId, memberNick, Permission.ADMIN);
     }
@@ -122,7 +121,7 @@ public class Member {
     }
 
     public static Member newMember(Connection con, String rights) {
-        Member.Permission permissions = Permission.assing(rights);
+        final Member.Permission permissions = Permission.assing(rights);
         return new Member(con.getConId(), con.getNick(), permissions);
     }
 
@@ -141,6 +140,10 @@ public class Member {
     private String mNick;
 
     /* GETTERS */
+    /**
+     * 
+     * @return
+     */
     public boolean isAdmin() {
         if (mRights == Permission.ADMIN) {
             return true;
@@ -149,14 +152,26 @@ public class Member {
         }
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getConnectionId() {
         return String.valueOf(mConnectionRef);
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getNick() {
         return mNick;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getReference() {
         return mConnectionRef + SEPARATOR + mNick + SEPARATOR + mRights;
     }

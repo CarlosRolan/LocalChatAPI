@@ -22,10 +22,10 @@ public class Chat {
     final static String CHAT_PREFIX = "3120";
 
     public static List<Member> converToMemberList(String[] memberRefs) {
-        List<Member> toret = new ArrayList<>();
+        final List<Member> toret = new ArrayList<>();
 
         for (int i = 0; i < memberRefs.length; i++) {
-            Member member = Member.init(memberRefs[i]);
+            final Member member = Member.init(memberRefs[i]);
             toret.add(member);
         }
 
@@ -48,17 +48,17 @@ public class Chat {
      * @return
      */
     public static Chat init(String chatRef) {
-        String[] data = chatRef.split(Chat.SEPARATOR);
+        final String[] data = chatRef.split(Chat.SEPARATOR);
 
-        String chatId = data[0];
-        String chatTitle = data[1];
-        String chatDesc = data[2];
+        final String chatId = data[0];
+        final String chatTitle = data[1];
+        final String chatDesc = data[2];
 
-        String membersRaw = data[3];
+        final String membersRaw = data[3];
 
-        String[] memberRefList = membersRaw.split(CHAT_MEMBER_SEPARATOR);
+        final String[] memberRefList = membersRaw.split(CHAT_MEMBER_SEPARATOR);
 
-        List<Member> membersList = new ArrayList<>();
+        final List<Member> membersList = new ArrayList<>();
 
         for (int i = 0; i < memberRefList.length; i++) {
             Member fromRef = Member.init(memberRefList[i]);
@@ -76,14 +76,10 @@ public class Chat {
      *         Msg to the cleint
      */
     public static Chat createChat(String chatTitle, String chatDesc, String[] membersRef, int numChats) {
-
-        String numChatOfCreator = String.valueOf(numChats);
-
-        List<Member> memberRefList = converToMemberList(membersRef);
-
-        Member creator = memberRefList.get(0);
-
-        String chatId = generateChatCode(creator.getConnectionId(), numChatOfCreator);
+        final String numChatOfCreator = String.valueOf(numChats);
+        final List<Member> memberRefList = converToMemberList(membersRef);
+        final Member creator = memberRefList.get(0);
+        final String chatId = generateChatCode(creator.getConnectionId(), numChatOfCreator);
 
         return new Chat(chatId, chatTitle, chatDesc, memberRefList);
     }
@@ -118,13 +114,22 @@ public class Chat {
     private String mTitle;
     private String mDesc;
 
+    /**
+     * 
+     * @param memberToCheck
+     * @return
+     */
     public boolean isCreator(Member memberToCheck) {
         String creatorId = getChatId().substring(3);
         return (creatorId.startsWith(memberToCheck.getConnectionId()));
     }
 
     /* GETTERS */
-
+    /**
+     * 
+     * @param member
+     * @return
+     */
     public Member getMember(Member member) {
         if (mMembers.contains(member)) {
             return member;
@@ -132,6 +137,11 @@ public class Chat {
         return null;
     }
 
+    /**
+     * 
+     * @param memberRef
+     * @return
+     */
     public Member getMemberFromRef(String memberRef) {
         Member member = Member.init(memberRef);
         return getMember(member);
@@ -162,10 +172,18 @@ public class Chat {
         return mMembers.get(index);
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getChatId() {
         return mId;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getTitle() {
         return mTitle;
     }
@@ -191,7 +209,6 @@ public class Chat {
      * @return
      */
     public String[] getMembersRef() {
-
         String[] toret;
 
         try {
@@ -206,6 +223,10 @@ public class Chat {
         return toret;
     }
 
+    /**
+     * 
+     * @return
+     */
     public List<String> getMembersRefList() {
         List<String> toret = new ArrayList<>();
         for (Member member : mMembers) {
@@ -248,12 +269,13 @@ public class Chat {
 
     /**
      * 
-     * @param memberId
+     * @param memberRef
      * @return
      */
-    public boolean isMemberInChat(String memberId) {
+    public boolean isMemberInChat(String memberRef) {
+        String memberId = memberRef.split(Member.SEPARATOR)[0];
         for (Member iMember : mMembers) {
-            System.out.println("ID" + memberId + " =? " + "REF" + iMember.getReference());
+            System.out.println("ID" + memberRef + " =? " + "REF" + iMember.getReference());
             if (iMember.getConnectionId().equals(memberId)) {
                 return true;
             }
@@ -263,14 +285,12 @@ public class Chat {
     }
 
     /**
+     * 
      * @param memberId
-     * @return true if member is Admin
+     * @return
      */
-
     public boolean isMemberAdmin(String memberId) {
-
-        Member memberToCheck = getMemberFromId(memberId);
-
+        final Member memberToCheck = getMemberFromId(memberId);
         return memberToCheck.isAdmin();
     }
 
@@ -324,7 +344,8 @@ public class Chat {
      * @param member
      */
     public void deleteMember(Member member) {
-        mMembers.remove(member);
+        final Member toDelete = getMemberFromId(member.getConnectionId());
+        mMembers.remove(toDelete);
     }
 
     /**
@@ -332,14 +353,18 @@ public class Chat {
      * @param memberId
      */
     public void deleteMember(String memberId) {
-        Member toDelete = getMemberFromId(memberId);
+        final Member toDelete = getMemberFromId(memberId);
         deleteMember(toDelete);
     }
 
+    /**
+     * 
+     * @param updated
+     */
     public void updateMember(Member updated) {
-        String id = updated.getConnectionId();
-        Member old = getMemberFromId(id);
-        int index = getMembers().indexOf(old);
+        final String id = updated.getConnectionId();
+        final Member old = getMemberFromId(id);
+        final int index = getMembers().indexOf(old);
         getMembers().set(index, updated);
     }
 
@@ -370,7 +395,7 @@ public class Chat {
     public Chat(String ownerId, String ownerNick, String chatsNum, String title, String description) {
         mTitle = title;
         mDesc = description;
-        Member owner = Member.newCreator(ownerId, ownerNick);
+        final Member owner = Member.newCreator(ownerId, ownerNick);
         mMembers = new ArrayList<>();
         mMembers.add(owner);
     }

@@ -36,6 +36,10 @@ public abstract class Connection extends Thread implements Codes {
 	private String mHostName = "localhost";
 	private int mPort = 8080;
 
+	/**
+	 * 
+	 * @param socket
+	 */
 	public void reconnect(Socket socket) {
 		try {
 			initConnection();
@@ -87,26 +91,50 @@ public abstract class Connection extends Thread implements Codes {
 	 * @param id the conection ID as a String
 	 */
 	/* SETTERS */
+
+	/**
+	 * 
+	 * @param id
+	 */
 	public void setConId(String id) {
 		mId = Long.parseLong(id);
 	}
-
+	/**
+	 * 
+	 * @param id
+	 */
 	public void setConId(long id) {
 		mId = id;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
 	public void setConId(Long id) {
 		mId = id;
 	}
 
+	/**
+	 * 
+	 * @param nick
+	 */
 	public void setNick(String nick) {
 		mNick = nick;
 	}
 
+	/**
+	 * 
+	 * @param listener
+	 */
 	public void setIMSGHANDLER(IMSGHandler listener) {
 		mMSGHandler = listener;
 	}
 
+	/**
+	 * 
+	 * @param listener
+	 */
 	public void setPKGHandler(IPKGHandler listener) {
 		mPKGHandler = listener;
 	}
@@ -222,7 +250,6 @@ public abstract class Connection extends Thread implements Codes {
 		presentation();
 	}
 
-	/** */
 	public void presentation() {
 		if (presentToServer()) {
 			System.out.println(INFO_CONECXION_ACCEPTED);
@@ -237,7 +264,7 @@ public abstract class Connection extends Thread implements Codes {
 	 *         get the confirmation from the server
 	 */
 	private boolean presentToServer() {
-		MSG presentation = new MSG(Type.REQUEST);
+		final MSG presentation = new MSG(Type.REQUEST);
 		presentation.setAction(REQ_PRESENT);
 		presentation.setEmisor(getNick());
 
@@ -272,7 +299,6 @@ public abstract class Connection extends Thread implements Codes {
 	}
 
 	/* PUBLIC METHODS */
-
 	public void reconnect() {
 		String dots = "";
 		while (true) {

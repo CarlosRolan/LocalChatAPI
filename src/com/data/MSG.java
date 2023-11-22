@@ -29,6 +29,10 @@ public class MSG implements Serializable {
     private String mBody = "empty";
 
     /* GETTERS */
+    /**
+     * 
+     * @return
+     */
     public String getAction() {
         return mAction;
     }
@@ -99,40 +103,77 @@ public class MSG implements Serializable {
     }
 
     /* SETTERS */
+    /**
+     * 
+     * @param action
+     */
     public void setAction(String action) {
         this.mAction = action;
     }
 
+    /**
+     * 
+     * @param headers
+     */
     public void setHeaders(String[] headers) {
         this.mHeaders = headers;
     }
 
+    /**
+     * 
+     * @param emisor
+     */
     public void setEmisor(String emisor) {
         mHeaders[0] = emisor;
     }
 
+    /**
+     * 
+     * @param receptor
+     */
     public void setReceptor(String receptor) {
         mHeaders[1] = receptor;
     }
 
+    /**
+     * 
+     * @param parameters
+     */
     public void setParameters(String[] parameters) {
         mParameters = parameters;
     }
 
+    /**
+     * 
+     * @param pos
+     * @param parameter
+     */
     public void setParameter(int pos, String parameter) {
         mParameters[pos] = parameter;
     }
 
+    /**
+     * 
+     * @param body
+     */
     public void setBody(String body) {
         this.mBody = body;
     }
 
     /* CONSTRUCTORS */
+    /**
+     * 
+     * @param TYPE
+     */
     public MSG(Type TYPE) {
         MSG_TYPE = TYPE;
     }
 
     /* PUBLIC METHODS */
+    /**
+     * 
+     * @return
+     */
     public String showParameters() {
         String toret = "";
         for (int i = 0; i < mParameters.length; i++) {

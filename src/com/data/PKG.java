@@ -23,41 +23,79 @@ public class PKG implements Serializable {
     private List<MSG> pMsgs = new ArrayList<>();
 
     /* GETTERS */
+    /**
+     * 
+     * @return
+     */
     public String getPKGName() {
         return pName;
     }
 
+    /**
+     * 
+     * @param position
+     * @return
+     */
     public MSG getMsgAt(int position) {
         return pMsgs.get(position);
     }
 
+    /**
+     * 
+     * @return
+     */
     public List<MSG> getMessagesList() {
         return pMsgs;
     }
 
     /* SETTERS */
+    /**
+     * 
+     * @param messages
+     */
     public void setMessages(List<MSG> messages) {
         pMsgs = messages;
     }
 
+    /**
+     * 
+     * @param position
+     * @param msg
+     */
     public void setMsgAt(int position, MSG msg) {
         pMsgs.add(position, msg);
     }
 
+    /**
+     * 
+     * @param msg
+     */
     public void addMsg(MSG msg) {
         pMsgs.add(msg);
     }
 
+    /**
+     * 
+     * @param name
+     */
     public void setName(String name) {
         pName = name;
     }
 
     /* CONSTRUCTORS */
+    /**
+     * 
+     * @param type
+     */
     public PKG(final Type type) {
         PACKAGE_TYPE = type;
     }
 
     /* PARSERS */
+    /**
+     * 
+     * @return
+     */
     private String messagesToString() {
         String toret = "";
         

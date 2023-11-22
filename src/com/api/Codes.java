@@ -101,7 +101,7 @@ public interface Codes {
      * @return
      */
     public default MSG sendConInstance(Connection con, final String ACTION) {
-        MSG conInfo = new MSG(MSG.Type.REQUEST);
+        final MSG conInfo = new MSG(MSG.Type.REQUEST);
         conInfo.setAction(ACTION);
         conInfo.setEmisor(con.getConId());
         conInfo.setReceptor(con.getNick());
@@ -114,8 +114,14 @@ public interface Codes {
         return conInfo;
     }
 
+    /**
+     * 
+     * @param chat
+     * @param ACTION
+     * @return
+     */
     public default MSG sendChatInstance(Chat chat, final String ACTION) {
-        MSG chatInfo = new MSG(MSG.Type.REQUEST);
+        final MSG chatInfo = new MSG(MSG.Type.REQUEST);
         chatInfo.setAction(ACTION);
         chatInfo.setEmisor(chat.getChatId());
         chatInfo.setReceptor(chat.getTitle());
@@ -131,8 +137,7 @@ public interface Codes {
      * @return 
      */
     public default MSG recievedMsgFromChat() {
-        MSG msgSent = new MSG(MSG.Type.MESSAGE);
-
+        final MSG msgSent = new MSG(MSG.Type.MESSAGE);
         msgSent.setAction(MSG_FROM_CHAT);
 
         return msgSent;
@@ -143,8 +148,7 @@ public interface Codes {
      * @return
      */
     public default MSG recievedMsgFromSingle() {
-        MSG msgSent = new MSG(MSG.Type.MESSAGE);
-
+        final MSG msgSent = new MSG(MSG.Type.MESSAGE);
         msgSent.setAction(MSG_FROM_SINGLE);
 
         return msgSent;
@@ -158,8 +162,7 @@ public interface Codes {
      * @return
      */
     public default MSG sendMsgToChat(String chatId, String emisorId, String line) {
-
-        MSG msgOut = new MSG(MSG.Type.MESSAGE);
+        final MSG msgOut = new MSG(MSG.Type.MESSAGE);
 
         msgOut.setAction(MSG_TO_CHAT);
         msgOut.setEmisor(emisorId);
@@ -180,7 +183,7 @@ public interface Codes {
      */
     public default MSG sendMsgToSingle(String emisorId, String emisorNick, String receptorId, String receptorNick,
             String msgTxt) {
-        MSG msgOut = new MSG(MSG.Type.MESSAGE);
+        final MSG msgOut = new MSG(MSG.Type.MESSAGE);
 
         msgOut.setAction(MSG_TO_SINGLE);
         msgOut.setEmisor(emisorId);
@@ -194,14 +197,14 @@ public interface Codes {
 
     /* ERRORs */
     public default MSG conNotFound() {
-        MSG respond = new MSG(MSG.Type.ERROR);
+        final MSG respond = new MSG(MSG.Type.ERROR);
         respond.setAction(ERROR_CLIENT_NOT_FOUND);
 
         return respond;
     }
 
     public default MSG chatNotFound() {
-        MSG respond = new MSG(MSG.Type.ERROR);
+        final MSG respond = new MSG(MSG.Type.ERROR);
         respond.setAction(ERROR_CHAT_NOT_FOUND);
 
         return respond;
