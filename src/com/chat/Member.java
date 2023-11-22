@@ -52,11 +52,21 @@ public class Member {
     public static Member init(String memberRef) {
         final String memberData[] = memberRef.split(Member.SEPARATOR);
 
-        final String memberId = memberData[0];
-        final String memberNick = memberData[1];
-        final Permission rights = Permission.assing(memberData[2]);
+        Member toret = null;
 
-        return new Member(memberId, memberNick, rights);
+        try {
+            final String memberId = memberData[0];
+            final String memberNick = memberData[1];
+            final Permission rights = Permission.assing(memberData[2]);
+            toret = new Member(memberId, memberNick, rights);
+        } catch (Exception e) {
+            final String memberId = memberData[0];
+            final String memberNick = memberData[1];
+            System.out.println("Member instanced as UNDEFINED, reference UNCOMPLETED");
+            toret = new Member(memberId, memberNick, Member.Permission.UNDEFINED);
+        }
+
+        return toret;
     }
 
     /**
